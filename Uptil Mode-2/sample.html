@@ -1,0 +1,604 @@
+<!-- This is 'room.ejs' File of Connect - The Main Video-Chat Page -->
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <!-- This is the Head Section -->
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Title and Icon -->
+        <title>Connect</title>
+        <link rel="shortcut icon" href="/images/favicon_logo.jpg">
+
+        <!-- StyleSheets -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="public/css/room.css">
+        <link rel="stylesheet" href="public/css/createRoom.css">
+
+        <!-- Emojisonearea stylesheet -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css">
+
+        <!-- Bootstrap scripts -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <!-- Fontawesome icons -->
+        <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-replace-svg="nest"></script>
+
+        <!-- Link to the Socket.io cdn -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+
+        <!-- Link to the Peer JS cdn -->
+        <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+
+        <!-- Scrpt for Required Room Details -->
+        <script>
+        </script>
+    </head>
+
+    <body>
+        
+        <!-- Video Screen and Meeting Controls -->
+        <div class="row content">
+
+            <div id="aside" class="col-8" style="max-height: 100vh; overflow-y: scroll;">
+
+                
+                <div class="form-control" style="height: 8vh; display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
+                    <div id="text" style="width: 85%">
+
+                    </div>
+                    <!-- <input type="text" class="form-control" id="roomId" value="" style="height: 10vh;">
+                    <button type="button" class="btn share" data-toggle="modal" data-target="#myModal" style="height: 10vh;">
+                        <i class="fa fa-window-close"></i>
+                    </button>
+                    <button type="button" class="btn share" data-toggle="modal" data-target="#myModal" style="height: 10vh;">
+                        <i class="fa fa-window-close"></i>
+                    </button> -->
+                    <div class="buttons" style="width: 10%; display: flex; justify-content: space-around;">
+                        <i class="fa fa-microphone fa-3x" style="color: orange"></i>
+                        <i class="fa fa-window-close fa-3x" style="color: red"></i>
+                    </div>
+                </div>
+
+                <div class="tab-content">
+                    
+                    <div class="tab-pane active" id="general">
+                        <div class="container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); grid-gap: 10px; grid-auto-rows: minmax(100px, auto); grid-auto-columns: minmax((50px, auto)); padding: 20px 10px;">
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;" id="test">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/waving-hand-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Hello</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABmJLR0QA/wD/AP+gvaeTAAAHHUlEQVRoge2YXYhdVxXHf2vvc879mJlMMk0nX+0ksbURYsVUpDFtAxJCMZhGTVOloqDiF/iqIIroS30Q8cFHHyqiIBbBB1EfLCkkglBowRIlmtZYKlXzYU0zM3fO2WstH/a9N3cmkzRJ2+TlLtjsc2fuWef/X+u/1trnwtjGNraxjW1sN8HcCW+HX3mrHfovbp+cL9t7kvijMbK36BbbY6copHQR3Nw5a4mnTe1HnYdOP/Nmn3fDBPzYlnuWKPa7+m4x34UVW4MzEUIUokBVQCvkJ7iDOKD52hwgaZO+1dpz+rs3lUB9fNsPQjt+OURpuTrU4I3gCbwskFaFVEV2HkDogxcHDEzBDTfFzJ3kXy13v/j9m0Jg6fjcz8tu9XE3h5SBWwoZdLsFoQARJAAOIpkE4uCWCbgCCUyxpLiZ2pJ9vnrgpSffVgK938zeVcxMnhITXAN4wFtdpF0BMQOXACEggATJLKAP3MgS0iEJtwSasGS91NiR9p6Xfn29BK69M5SdL3kvoFpBdxKm1yLtLhIqJFYECQhGSIu4LuHumVgoQVau4tJ1LJAY2kUpP6mP3737egm8YQbcifUfdxyWEL4XqvYcEvODQ0QQoME1oXUNdYOrIcGQokDKCsouRXv6knRcyQWT8mdLuGUflvTVXp32Tz348ok3TWDx6e1bQ0e+GFvV40jcilS4hz5wx1RBE94kvG5IqcmabhKIE6qIlAVVd5pyZq5PYAS8J/BmuLs1WKOY6sl0sdnX3ffKP2+IQO+ZuYNSFZ+NpRxAQgU55eYGInitaA1oA0nR2lBNuT06ULbAGsSWQKBat572ph3LgbMcfN5rXBVNhjf+fNnIw7L31JlrInDh6Ob1hZZfC2XxaaJsIPSLUARXAQu4GZ5Ae4qZQpNwwHFiUdI0kYv//i+myrnzTndmknWzLWbvfa+GMsaVEb+0L7+2ZJgaXtvx8mx1QA6dfP1qBAqAdG7itAUmYhtCGQgxdw83xwwsJTQZNIq7IwKhU1G2CrS5iC5eYOGsYpqdVhVc+M/rmBVsfF83g8eA2N9DP3ay4loI/RashTy4NLP0lB/d9hH54OneVQnguCdBe4YuObEwzAVrHHHFHEJwKzqtl6u1sRs7aRZTUq+Hm2FBaE0ETA1TmJoUuh1hYtuWwSC4yhoVQ866RCGY44GHF8Wf8ic5Ip9hVRIBoJrSj4pI403AGmgWBOs5AXqhG/4wsb5zZO3hv8fJAye3l2vkhyE4EoRYRkIZCUWg6gprNkTaUxlUjDCzbcvVsn9l8yxhiYKIf3j+jjt+6X+jtdpXhyHwoxSLvbsOKuws4BVxOdY+cOrFy3yfuO9udP6vbiauRlpsSAsNzXw9/E7vgmHFOjZ9YO8qmh/V/mqfFTfH3bHasFpJtaFL+tup+VcPymPoqgSuK0Av3PtTrPdJV0frRDNf08zXuObakbJNd9v9FJ3OSP9fvX2uvHY3MM/1lwxtFKsV7Rme0hNrHjnzjVEsxY0QYKn6AuVSD/FPSQyVxEhsTyLFBMXkDOW6jYjEYUSXHSFcyYU82EdXvxUPluWTqztIdKyRx4HrJ+DP7bqddngAL95FKDYj5SxMbxTi6Sjlpjgdp3KxDgp2BOjKQ9yQjI3sg9V/HuCeZZQPs46Zg3DnSmxXJeAv7HiPqz/hUn8IjWEZIIlIKLJmCf3zTe4kIpJRCPn4LL4iE4OBpiPL+oDzclu+UAe3eM0Emuffud+a9CucrohgaQBcEVFcQiaQp15GGwKCYEMSgzO1IYxkYjVZDYAPwKvh6nmADora/TKcqxLwEzur+rX5Hzt0M4AGCQFHEYkYmj+L4ghC6P8fhAAB3AURH2n3nrn6SNSH2bAB/j7HEfB6KQvil/ecVQn8718X312Iby6i4AFEHDFAHJc8UV1zZN0DIQqWctQNEJFMpk8gvx/k+0Us+5NLNeCDgnXvD8O8u3p/WVZuvPz0vyqB6XP6l4W1nFOX20KRI+vBssQRfCBwMUQClkL/7zlCg0S7ZBLmTn7Xsf7oNIjZC+65RDy3TR8stREyeXAKl0voinNg/neb7zORr0uMnSDSeJQGbJ4QiPBaRhKGbkRY47CGKBOmPikiM8AcMCVY/43N8nty/wg0eGcTBrIxLOWIa1JI/YyQ5aPJmfnYmWWY3/KfVVaaH985V4eF+y355xDfB1JITmWWGGTp9Hv+QDqihibP2e7PAk0s3vbome5NJTBqvWPvuMeSfkfED7lLx/GhhNQMMbBB4aoN78udCDA5PnPkzEO3jMAQ0O9nNyxY9U0z/wTu6z1PrpyFQfcZaZkOYCxUbu+feuz8n0d93RICA/OjFOcXNh0KSR/BZJeZ3unma1eIPOE854GvrD987tmVPm4pgSvZP342va7V0RJgw58unpVvY290z9jGNraxjW1sYxvbDdj/Ad4lpeSg3lsrAAAAAElFTkSuQmCC"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Little</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/up-arrow-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Up</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/down-arrow-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Down</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/left-arrow-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Left</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/right-arrow-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Right</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/play-button-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Play</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/pause-button-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Pause</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/fast-forward-button-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Forward</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/last-track-button-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Back</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/smiling-face-with-smiling-eyes.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Happy</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/disappointed-face.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Sad</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/tired-face.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Tired</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/ok-hand-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Ok</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/man-light-skin-tone.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Me</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/one-oclock--v2.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Time</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/eye-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Eye</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+   
+                    <div class="tab-pane active" id="letters">
+                        <div class="container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); grid-gap: 10px; grid-auto-rows: minmax(100px, auto); grid-auto-columns: minmax((50px, auto)); padding: 20px 10px;">
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/a-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">A</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/b-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">B</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/c-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/d-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/e-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/f-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/g-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/h-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/i-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/j-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/k-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/l-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/m-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/n-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/o-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/p-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/q-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/r-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/s-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/t-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/u-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/v-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/w-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/x-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/y-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/z-button-blood-type-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;"></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane active" id="numbers">
+                        <div class="container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); grid-gap: 10px; grid-auto-rows: minmax(100px, auto); grid-auto-columns: minmax((50px, auto)); padding: 20px 10px;">
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/keycap-digit-zero-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Zero</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/keycap-digit-one-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">One</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/keycap-digit-two-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Two</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/keycap-digit-three-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Three</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/keycap-digit-four-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Four</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/keycap-digit-five-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Five</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/keycap-digit-six-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Six</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/keycap-digit-seven-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Seven</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/keycap-digit-eight-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Eight</h6>
+                                </div>
+                            </div>
+                            <div class="shadow sm p-1 m-2 rounded titles" style="display: flex; flex-direction: column; justify-content: center; align-items:center;">
+                                <div class="top">
+                                    <img src="https://img.icons8.com/emoji/48/000000/keycap-digit-nine-emoji.png"/>
+                                </div>
+                                <div class="bottom">
+                                    <h6 style="font-weight: bold; padding: 5px 0;">Nine</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#general">General<span id="chat-noti" style="color: red;"></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#letters">Letters</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#numbers">Numbers</a>
+                    </li>
+                </ul>
+
+            </div>
+            
+            <div class="col-4 d-flex flex-column justify-content-between" id="main">
+    
+                <!-- Video Grid for Other Peers -->
+                <div id="video-grid-1" class="d-flex justify-content-center align-items-center flex-wrap"></div>
+    
+                <!-- Video Grid for Ourselves -->
+                <div id="video-grid-2"></div>
+        
+                <!-- Meeting Options -->    
+                <nav class="navbar navbar-expand-sm bg-dark navbar-dark ">
+                    <div class="container">    
+                        <ul class="navbar-nav left">
+                            <li class="nav-item" id="audioOption" onclick="muteUnmute()" title="Audio">
+                                <i class="fas fa-microphone nav-link"></i>
+                            </li>
+                            <li class="nav-item" id="videoOption" onclick="playStop()" title="Video">
+                                <i class="fas fa-video nav-link"></i>
+                            </li>
+                            <li class="nav-item" onclick="whiteBoard()">
+                                <i class="far fa-edit nav-link"></i>
+                            </li>
+                            <li class="nav-item" id="screen-share" onclick="screenSharing()" title="Screen Share">
+                                <i class="fas fa-desktop nav-link"></i>
+                            </li>
+                        </ul>    
+                        <ul class="navbar-nav right">
+                            <li class="nav-item">
+                                <button class="nav-link btn btn-danger px-5 leave" onclick="leave()" title="Leave Meeting">
+                                <i class="fas fa-phone-alt"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>    
+                </nav>
+
+            </div>
+
+            
+            <!-- Participants Info and Chat Section -->
+
+        </div>
+
+        <!-- Bootstrap Modal having Meeting Info -->
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog modal-md modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <div class="p-5">
+
+                            <div class="form-group">
+                                <label for="id">Room Id</label>
+                                <input type="text" class="form-control" id="id">
+                                <i class="far fa-copy" id="copyId"></i>
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="url">Url</label>
+                                <input type="url" class="form-control" id="url">
+                                <i class="far fa-copy" id="copyUrl"></i>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EmojioneArea script -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js" integrity="sha512-hkvXFLlESjeYENO4CNi69z3A1puvONQV5Uh+G4TUDayZxSLyic5Kba9hhuiNLbHqdnKNMk2PxXKm0v7KDnWkYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <!-- Link to JS Files -->
+        <script src="public/js/createRoom.js"></script>
+        <script src="public/js/room.js"></script>
+
+    </body>
+
+</html>

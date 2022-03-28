@@ -1,0 +1,52 @@
+<!-- This is 'footer.ejs' File of Connect - A EJS File containing the footer -->
+
+        <!-- This is footer section -->
+        <footer>
+            <div class="main">
+                <h4>Coded by Siddhesh Mane</h4>
+                <div class="links">
+                    <a href="https://github.com/Siddhesh25082001" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/siddhesh-suresh-mane" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="http://api.whatsapp.com/send?phone=917710914875" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </footer>
+
+    </body>
+
+    <!-- Link to the 'index.js' file -->
+    <script src="/js/script.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+    <script>
+
+        if (annyang) {
+            var commands = {
+
+                'Click on create': function(){
+                    window.location.href = "http://localhost:8000/createRoom"
+                },
+
+                'Click on join': function(){
+                    window.location.href = "http://localhost:8000/joinRoom"
+                },
+                
+                'Create Room': function(){
+                    const copyText = document.getElementById("roomId");
+                    console.log(copyText.value)
+                    window.location.href = `/info/${copyText.value}`
+                },
+
+                'Enter Meeting': function(){
+                    const copyText = document.getElementById("roomId");
+                    console.log(copyText.value)
+                    window.location.href = `/room/${copyText.value}`
+                }
+            };
+
+            annyang.addCommands(commands);
+            annyang.start();
+        }
+    </script>
+    
+</html>
