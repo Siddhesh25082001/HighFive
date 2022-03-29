@@ -72,22 +72,22 @@ if (annyang) {
             nickname.value = data.split(' ').join('');
         },
 
-        'Clear Nickname ': function(){
+        'Clear Nickname': function(){
             const nname = document.getElementById("nname");
             nname.value = "";
         },
 
         'Open Dropdown': function(){
              console.log('Dropdown');
-             $('#mode-dropdown').trigger("click");
+            // $('#mode-dropdown').trigger("click");
              const dropdown = document.getElementById("mode-dropdown");
              console.log(dropdown);
-            // dropdown.click();
+             dropdown.click();
         },
         'Choose Mode *mode':function(mode){
             const dropdown = document.getElementById('mode-dropdown');
-        
-            if(mode === "1") dropdown.value = '1';
+            console.log(mode)
+            if(mode === "1" || mode === "one" || mode === "O") dropdown.value = '1';
             else if(mode === "2") dropdown.value = '2';
             else if(mode === "3") dropdown.value = '3';
             else if(mode === "4") dropdown.value = '4';
@@ -104,7 +104,7 @@ if (annyang) {
             video.click();
         },
         'Off Video': function(){
-            console.log("hello");
+            //console.log("hello");
             const video = document.getElementById('videoOption');
             //console.log(video);
             video.click();
@@ -129,19 +129,20 @@ if (annyang) {
             const leave = document.getElementById('leaveMeeting');
             leave.click();
         },
-        'Share Link with *email':function(receiver_email){
-            receiver_email = receiver_email.toLowerCase();
-            receiver_email = receiver_email.split(' ').join('');
-            receiver_email = receiver_email.replace("attherate","@");
-            console.log(receiver_email);
+        'Share Link':function(){
+            // receiver_email = receiver_email.toLowerCase();
+            // receiver_email = receiver_email.split(' ').join('');
+            // receiver_email = receiver_email.replace("attherate","@");
+            // console.log(receiver_email);
             const roomId = document.getElementById('roomId');
+            console.log("Share Link");
             const link = `http://localhost:8000/joinRoom/${roomId.value}`;
             Email.send({
             Host: "smtp.elasticemail.com",
             Port:2525,
             Username : "shettyrohit268@gmail.com",
             Password : "961CCBA491B80A118101899A82CBD6217988",
-            To : `${receiver_email}`,
+            To : `prajapatirahul1712001@gmail.com`,
             From : "shettyrohit268@gmail.com",
             Subject : "Hello from rahul",
             Body : `Room Id : ${roomId.value},
@@ -150,10 +151,19 @@ if (annyang) {
             then(
                 message => {
                     console.log(message);
-                    alert(`mail sent successfully to ${receiver_email}`);
+                    alert(`mail sent successfully`);
                 }
             )
             .catch(err => {alert(err)});
+        },
+        'Show Commands': function(){
+            const command = document.getElementById('command-modal-button');
+            console.log("hello ",command);
+            command.click();
+        },
+        'Close Commands':function(){
+            const close = document.getElementById('command-modal-button');
+            close.click();
         },
         'Enter Meeting': function(){
             const copyText = document.getElementById("roomId");

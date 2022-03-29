@@ -284,7 +284,8 @@ function popoverActivate() {
 // Function to create the List element
 function createListElement(userName, fname, lname, email, phone) {
     const list = document.createElement('li');
-
+    // console.log("Inside Create List Element");
+    // console.log(userName, fname, lname, email, phone);
     list.innerHTML = `
     <a href="#" class="pops" title="${fname} ${lname}" data-toggle="popover" 
     data-placement="bottom" data-html="true" data-trigger="hover" data-content="Email: ${email}<br>
@@ -292,12 +293,15 @@ function createListElement(userName, fname, lname, email, phone) {
     ${userName}
     </a>
     `;
+    console.log(participants);
 
     participants.appendChild(list);
 }
 
 // Function to create the Participant List
 function createParticipantList(users) {
+    console.log("Inside Participants List");
+    console.log(users);
     participants.innerHTML = '';
 
     for (let i = 0; i < users.length; i++) {
@@ -555,6 +559,7 @@ const setUnmuteButton = () => {
 
 const muteUnmute = () => {
     const enabled = myVideoStream.getAudioTracks()[0].enabled;
+    console.log(enabled);
     if (enabled) {
         myVideoStream.getAudioTracks()[0].enabled = false;
         setUnmuteButton();

@@ -1,4 +1,3 @@
-
 <!-- This is 'room.ejs' File of Connect - The Main Video-Chat Page -->
 
 <!DOCTYPE html>
@@ -34,11 +33,21 @@
         <!-- Link to the Socket.io cdn -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
 
+     
+        <script src="https://smtpjs.com/v3/smtp.js"></script>
+            
+      
         <!-- Link to the Peer JS cdn -->
         <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
 
         <!-- Scrpt for Required Room Details -->
         <script>
+            const ROOM_ID = '<%= roomId %>'
+            const USER_FNAME = '<%= userFName %>'
+            const USER_LNAME = '<%= userLName %>'
+            const USER_EMAIL = '<%= userEmail %>'
+            const USER_PHONE = '<%= userPhone %>'
+            let USER_NAME = '<%= userName %>'
         </script>
     </head>
 
@@ -46,65 +55,7 @@
         
         <!-- Video Screen and Meeting Controls -->
         <div class="row content">
-
-            <div id="aside" class="col-8">
-
-                
-                <div class="form-group">
-                    <input type="text" class="form-control" id="roomId" value="" style="height: 10vh;">
-                    <button type="button" class="btn share" data-toggle="modal" data-target="#myModal" style="height: 10vh;">
-                        <i class="fas fa-share-alt"></i>
-                    </button>
-                    <button type="button" class="btn share" data-toggle="modal" data-target="#myModal" style="height: 10vh">
-                        <i class="fas fa-share-alt"></i>
-                    </button>
-                </div>
-                
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#general">General<span id="chat-noti" style="color: red;"></span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#letters">Letters</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="numbers">Numbers</a>
-                    </li>
-                </ul>
-
-                <div class="tab-content">
-
-                   
-                    <div class="tab-pane active" id="general">
-                        <div class="d-flex user-list">
-                            <ul>
-                                
-                            </ul>
-                        </div>
-                    </div>
-
-                    
-                    <div class="tab-pane fade" id="letters">
-                        <div class="d-flex user-list">
-                            <ul>
-                                
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="tab-pane fade" id="numbers">
-                        <div class="d-flex user-list">
-                            <ul>
-                                
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-            
-            <div class="col-4 d-flex flex-column justify-content-between" id="main">
+            <div class="col-10 d-flex flex-column justify-content-between" id="main">
     
                 <!-- Video Grid for Other Peers -->
                 <div id="video-grid-1" class="d-flex justify-content-center align-items-center flex-wrap"></div>
@@ -131,7 +82,7 @@
                         </ul>    
                         <ul class="navbar-nav right">
                             <li class="nav-item">
-                                <button class="nav-link btn btn-danger px-5 leave" onclick="leave()" title="Leave Meeting">
+                                <button id="leaveMeeting" class="nav-link btn btn-danger px-5 leave" onclick="leave()" title="Leave Meeting">
                                 <i class="fas fa-phone-alt"></i>
                                 </button>
                             </li>
@@ -141,8 +92,57 @@
 
             </div>
 
-            
             <!-- Participants Info and Chat Section -->
+            <div id="aside" class="col-2">
+
+                <!-- Room id share -->
+                <div class="form-group">
+                    <input type="text" class="form-control" id="roomId" value="<%= roomId %>">
+                    <button type="button" class="btn share" data-toggle="modal" data-target="#myModal">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                </div>
+
+                <!-- Navigation bar -->
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="room-chat" data-toggle="tab" href="#chat">Chat<span id="chat-noti" style="color: red;"></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="participants" data-toggle="tab" href="#participants">Participants</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <!-- Chat section -->
+                    <div class="tab-pane active" id="chat">
+                        <div class="d-flex flex-column justify-content-end chat-area">
+
+                            <div class="chat-list d-flex flex-column">
+                                <!-- Chat will be visible here -->
+                            </div>
+
+                            <!-- Message input -->
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Type message" id="messageInput">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Participant lists -->
+                    <div class="tab-pane fade" id="participants">
+                        <div class="d-flex user-list">
+                            <ul>
+                                <!-- Participants will be visible here -->
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
@@ -173,12 +173,18 @@
             </div>
         </div>
 
+        <%- include('partials/command-modal') -%>
+
         <!-- EmojioneArea script -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js" integrity="sha512-hkvXFLlESjeYENO4CNi69z3A1puvONQV5Uh+G4TUDayZxSLyic5Kba9hhuiNLbHqdnKNMk2PxXKm0v7KDnWkYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+        <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
         <!-- Link to JS Files -->
         <script src="/js/createRoom.js"></script>
         <script src="/js/room.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script> -->
+        
+        <!-- <script src="/js/voice-controller.js"></script> -->
+        <script src="/js/voice.js"></script>
 
     </body>
 

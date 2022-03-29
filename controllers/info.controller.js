@@ -36,7 +36,7 @@ const handle_form_data = (req,res) => {
         if (!flag) {
             users.push(obj);
             console.log("Users List: ", users);
-            if(req.body.mode === '1'){
+            if(req.body.mode === '1' || req.body.mode === '0'){
                 res.redirect(`/room/mode-1/${req.params.roomId}`);
             }
             else if(req.body.mode === '2'){

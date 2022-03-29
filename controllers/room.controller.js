@@ -30,7 +30,9 @@ const room_mode_1 = (req,res) => {
             res.render('capacityFull', { roomId: roomId });
         } 
         else {
-            res.render('room', {
+            console.log("room Id", roomId);
+            console.log("users ", users);
+            res.render('room-1', {
                 roomId: roomId,
                 userFName: users[users.length - 1].fname,
                 userLName: users[users.length - 1].lname,
@@ -55,7 +57,7 @@ const room_mode_2 = (req,res) => {
             res.render('capacityFull', { roomId: roomId });
         } 
         else {
-            res.render('mode2', {
+            res.render('room-2', {
                 roomId: roomId,
                 userFName: users[users.length - 1].fname,
                 userLName: users[users.length - 1].lname,
@@ -72,6 +74,7 @@ const room_mode_2 = (req,res) => {
 }
 
 const room_mode_3 = (req,res) => {
+
 }
 
 const room_mode_4 = (req,res) => {
