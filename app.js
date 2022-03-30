@@ -134,7 +134,7 @@ io.on('connection', socket => {
         socket.join(roomId);
         counter++;
         
-        console.log("peer-connection", counter, users);
+        console.log("peer-connection ", counter, users);
 
         socket.to(roomId).emit('user-connected', userId, userName, users);
 

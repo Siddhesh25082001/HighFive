@@ -1,5 +1,4 @@
 
-
 var isBrowserSupported;
 if ("webkitSpeechRecognition" in window) {
     isBrowserSupported = true;
@@ -41,7 +40,7 @@ if (isBrowserSupported) {
         if (e.results[0].isFinal) {
             text = text.toLowerCase();
             console.log(text);
-            if (text.includes("voice")) {
+            if (text.includes("jarvis") || text.includes("jervis")) {
                 // Click On create
                 if (text.includes("click on create")) {
                     console.log("Inside click on create");
@@ -75,7 +74,7 @@ if (isBrowserSupported) {
                     window.speechSynthesis.speak(speech);
                 }
 
-                if (text.includes("mute me")) {
+                if (text.includes("mute me") || text.includes("mute") || text.includes("mutiny")) {
                     console.log("Inside on my audio");
                     const audio = document.getElementById('audioOption');
                     audio.click();
@@ -91,7 +90,7 @@ if (isBrowserSupported) {
                     window.speechSynthesis.speak(speech);
                 }
 
-                if(text.includes("leave meeting") || text.includes("live meeting")){
+                if(text.includes("leave") || text.includes("leave the meeting") || text.includes("live meeting")){
                     console.log("Inside leave meeting");
                     const leave = document.getElementById('leaveMeeting');
                     leave.click();
@@ -136,7 +135,7 @@ if (isBrowserSupported) {
                     });
                 }
 
-                if(text.includes("return to home page") || text.includes("home page")){
+                if(text.includes("home") || text.includes("return home") || text.includes("home page")){
                     console.log("Inside home page");
                     window.location.href = "http://localhost:8000";
                     speech.text = "Returned to home page";
@@ -144,13 +143,13 @@ if (isBrowserSupported) {
                 }
             }
             else {
-                console.log("voice bolo pehle")
+                console.log("jarvis bolo pehle")
             }
         }
     }
 
     recognition.onend = () => {
-        //console.log('Voice is deactivated');
+        console.log('Voice is deactivated');
         recognition.start();
     }
 
