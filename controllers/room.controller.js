@@ -81,7 +81,7 @@ const room_mode_4 = (req,res) => {
 }
 
 const room_mode_2_demo = (req, res) => {
-    res.render('room-2-demo', {
+    res.render('room-2', {
         roomId: "abcd",
         userFName: "dum",
         userLName: "dum",

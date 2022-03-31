@@ -125,8 +125,6 @@ app.get('/thanks', function(req, res){
     res.render('thankYou');
 });
 
-/*
-
 // Establishing the connection
 io.on('connection', socket => {
     socket.on('join-room', (roomId, userId, userName) => {
@@ -180,7 +178,6 @@ io.on('connection', socket => {
     });
 });
 
-*/
 
 // Error Page
 app.get('*', function(req, res) {
