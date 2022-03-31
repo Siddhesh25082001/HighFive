@@ -540,6 +540,18 @@ socket.on('createMessage', (msg, userId, userName) => {
     sound('message');
 });
 
+/* ------------------ code for mode-2 message transmission ------------------ */
+
+function transmitMessage(msg){
+    socket.emit('transmit-msg', msg);
+}
+
+socket.on('recieve-msg', (msg) => {
+    console.log("recieved message : ", msg);
+
+    renderSenderSentence(msg);
+});
+
 /*
 ================================================================================================================================================================================
                                                            A U D I O,   V I D E O   -   M U T E   /   U N M U T E

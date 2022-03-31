@@ -52,12 +52,12 @@ let words = {
 
     "pronoun" : [
         {
-            text : "You",
+            text : "you",
             icon : "pleading-face.png"
         },
     
         {
-            text : "I am",
+            text : "i am",
             icon : "pleading-face.png"
         },
     ],
@@ -85,7 +85,7 @@ let words = {
 
     "emoji" : [
         {
-            text : "UwU",
+            text : "uwu",
             icon : "pleading-face.png"
         },
         {
@@ -96,14 +96,14 @@ let words = {
 
     "question" : [
         {
-            text : "Why",
+            text : "why",
             icon : "pleading-face.png"
         },
     ],
 
     "alphabet" : [
         {
-            text : "Z",
+            text : "z",
             icon : "pleading-face.png"
         },
     ],
@@ -122,19 +122,31 @@ let words = {
 
 
 const grid = document.querySelector('.word-tray .grid-container');
-const sentenceTiles = document.querySelector('.sentence-tiles');
+const sentenceTiles = document.querySelector('#user-sentence .sentence-tiles');
+const senderSentenceTiles = document.querySelector('#sender-sentence .sentence-tiles');
 const wordTileTemplate = document.querySelector('#word-tile-template');
 const categoryTiles = document.querySelectorAll('.category-tile');
 
 const speakButton = document.querySelector('.speak-btn');
 const clearButton = document.querySelector('.clear-btn');
 
-let sentenceText = "";
-let sentenceTilesCount = 0;
+let sentence = [];
 
 /* -------------------------------------------------------------------------- */
 /*                                  FUNCTIONS                                 */
 /* -------------------------------------------------------------------------- */
+
+function getWordInfo(requiredWord){
+    for( let cat in words){
+        let res = words[cat].filter( word => word.text == requiredWord);
+
+        if( res.length != 0){
+            return {word : res[0], category : cat };
+        }
+    }
+    return {word : { text : "dummy", icon : "https://img.icons8.com/emoji/48/000000/waving-hand-emoji.png"}, category : "time"}
+}
+
 function textToSpeech(text){
     var msg = new SpeechSynthesisUtterance();
     msg.text = text;
@@ -142,30 +154,67 @@ function textToSpeech(text){
 }
 
 function addTileToSentence(tileElement){
-    if( sentenceTilesCount >= 7){
+    if( sentence.length >= 7){
         return;
     }
     let tile = tileElement.cloneNode(true);
-    sentenceText += " " + tile.querySelector('span').textContent;
-    sentenceTilesCount++;
+    let wordText = tile.querySelector('span').textContent.toLowerCase();
 
-    textToSpeech(tile.querySelector('span').textContent);
+    let wordObj = {
+        word : wordText,
+        icon : tile.querySelector('img').src
+    }
+
+    sentence.push(wordObj);
+
+    textToSpeech(wordText);
 
     sentenceTiles.appendChild(tile);
-    
+
+    transmitMessage(JSON.stringify([wordObj]));
+}
+
+
+
+function renderSenderSentence(msg){
+    senderSentenceTiles.innerHTML = "";
+    let senderSentence = "";
+    let senderWords = JSON.parse(msg);
+
+    //console.log("rendering : ", msg);
+
+    for(let senderWord of senderWords){
+
+        //console.log("testing for word :", senderWord);
+
+        let { word, category } = getWordInfo(senderWord.word);
+
+        let tile = renderWordTile(word, category);
+
+        //console.log("tile element : ", tile);
+        senderSentence += " " + senderWord.word;
+        senderSentenceTiles.appendChild(tile);
+    }
+
+    textToSpeech(senderSentence);
 }
 
 function speakSentence(){
-    if( !sentenceText )
+    if( sentence.length == 0 )
         return;
     
+    let sentenceText = "";
+    for(let ele of sentence){
+        sentenceText += " " + ele.word;
+    }
+
     textToSpeech(sentenceText);
+    transmitMessage(JSON.stringify(sentence));
 }
 
 function clearSentence(){
     sentenceTiles.innerHTML = "";
-    sentenceText = "";
-    sentenceTilesCount = 0;
+    sentence = [];
 }
 
 function clearActiveCategoryTiles(){
@@ -173,6 +222,7 @@ function clearActiveCategoryTiles(){
         tile.classList.remove('active');
     }
 }
+
 
 
 function renderWordTile(word, category){
@@ -248,53 +298,6 @@ clearButton.addEventListener('click', () => { clearSentence() });
 /*                                MAIN FUNCTION                               */
 /* -------------------------------------------------------------------------- */
 
-renderWordTray('default');
-
-
-
-
-
-
-
-
-
-
-/*
-
-let output = '';
-
-const grid = document.getElementById("box");
-const container = document.getElementById("text");
-
-$(document).click(function(event) {
-    var tile = $(event.target);
-    if(tile[0].tagName == 'DIV' && tile[0].classList.contains('shadow')){
-        
-        console.log(tile[0]);
-        
-        const valueContainer = tile[0].getElementsByClassName('bottom');
-        console.log(valueContainer)
-
-        const textContainer = valueContainer[0].getElementsByClassName('textValue');
-        console.log(textContainer)
-
-        grid.appendChild(tile[0]);
-        container.appendChild(grid)
-        
-        output += textContainer[0].innerHTML;
-        output += ' ';
-    }
-});
-
-const mic = document.getElementById('speak');
-mic.addEventListener('click', function(){
-    console.log(output);
-    container.innerHTML = "";
-
-    var msg = new SpeechSynthesisUtterance();
-    msg.text = output;
-    output = '';
-    window.speechSynthesis.speak(msg);
-})
-
-*/
+window.onload = () => {
+    renderWordTray('default');
+}

@@ -32,6 +32,7 @@ global.users = []
 app.get('/', function (req,res) {
     res.render('home');
 });
+
 // Create Room Page of Connect
 app.use('/createRoom',require('./routes/create-room.routing'));
 app.use('/joinRoom', require('./routes/join-room.routing'));
@@ -91,6 +92,7 @@ app.use('/room',require('./routes/room.routing'));
 // });
 
 // Form Error Page
+
 app.get('/formError/:roomId', function(req, res) {
     res.render('formError', { roomId: req.params.roomId })
 });
@@ -175,6 +177,10 @@ io.on('connection', socket => {
             console.log(`${userName} Disconnected`);
             socket.to(roomId).emit('user-disconnected', userId, userName, users);
         });
+
+        socket.on('transmit-msg', (msg) => {
+            socket.broadcast.emit('recieve-msg', msg);
+        })
     });
 });
 

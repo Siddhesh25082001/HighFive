@@ -53,10 +53,10 @@
         <div class="row content">
 
             <!-- Left Side - Picture Tiling -->
-            <div class="col-8 left">
+            <div class="col-8 tiles-layout">
 
                 <!-- Sentence to be spoken -->
-                <div class="sentence">
+                <div class="sentence" id="user-sentence">
                     <div class="sentence-tiles">
                             
                     </div>
@@ -171,40 +171,60 @@
             </div>
 
             <!-- Right Side - Video Conferencing -->
-            <div class="col-4 d-flex flex-column justify-content-between" id="main">
+            <div class="col-4 d-flex " id="main" style="display: flex; flex-direction:column; justify-content: space-between;">
+
+                <div>
+                    <!-- Video Grid for Other Peers -->
+                    <div id="video-grid-1" class="d-flex justify-content-center align-items-center flex-wrap" style="height:40vh;"></div>
+
+                    <!-- shows tiles for partner's sentence -->
+                    <div class="sentence" id="sender-sentence">
+                        <div class="sentence-tiles" style="width: 100%; ">
+                                
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <!-- Video Grid for Ourselves -->
+                    <div id="video-grid-2" style="height:22vh; display: flex; justify-content: center;"></div>
+            
+                    <!-- Meeting Options -->    
+                    <nav class="navbar navbar-expand-sm bg-dark navbar-dark ">
+                        <div class="container">    
+                            <ul class="navbar-nav left">
+                                <li class="nav-item" id="audioOption" onclick="muteUnmute()" title="Audio">
+                                    <i class="fas fa-microphone nav-link"></i>
+                                </li>
+                                <li class="nav-item" id="videoOption" onclick="playStop()" title="Video">
+                                    <i class="fas fa-video nav-link"></i>
+                                </li>
+                                <li class="nav-item" onclick="whiteBoard()">
+                                    <i class="far fa-edit nav-link"></i>
+                                </li>
+                                <li class="nav-item" id="screen-share" onclick="screenSharing()" title="Screen Share">
+                                    <i class="fas fa-desktop nav-link"></i>
+                                </li>
+                            </ul>    
+                            <ul class="navbar-nav right">
+                                <li class="nav-item">
+                                    <button class="nav-link btn btn-danger px-5 leave" onclick="leave()" title="Leave Meeting">
+                                    <i class="fas fa-phone-alt"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>    
+                    </nav>
+                </div>
     
-                <!-- Video Grid for Other Peers -->
-                <div id="video-grid-1" class="d-flex justify-content-center align-items-center flex-wrap"></div>
+
     
-                <!-- Video Grid for Ourselves -->
-                <div id="video-grid-2"></div>
-        
-                <!-- Meeting Options -->    
-                <nav class="navbar navbar-expand-sm bg-dark navbar-dark ">
-                    <div class="container">    
-                        <ul class="navbar-nav left">
-                            <li class="nav-item" id="audioOption" onclick="muteUnmute()" title="Audio">
-                                <i class="fas fa-microphone nav-link"></i>
-                            </li>
-                            <li class="nav-item" id="videoOption" onclick="playStop()" title="Video">
-                                <i class="fas fa-video nav-link"></i>
-                            </li>
-                            <li class="nav-item" onclick="whiteBoard()">
-                                <i class="far fa-edit nav-link"></i>
-                            </li>
-                            <li class="nav-item" id="screen-share" onclick="screenSharing()" title="Screen Share">
-                                <i class="fas fa-desktop nav-link"></i>
-                            </li>
-                        </ul>    
-                        <ul class="navbar-nav right">
-                            <li class="nav-item">
-                                <button class="nav-link btn btn-danger px-5 leave" onclick="leave()" title="Leave Meeting">
-                                <i class="fas fa-phone-alt"></i>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>    
-                </nav>
+
 
             </div>
 
@@ -214,12 +234,10 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js" integrity="sha512-hkvXFLlESjeYENO4CNi69z3A1puvONQV5Uh+G4TUDayZxSLyic5Kba9hhuiNLbHqdnKNMk2PxXKm0v7KDnWkYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <!-- Link to JS Files -->
-        
+        <script src="/js/mode2.js"></script>
         <script src="/js/createRoom.js"></script>
         <script src="/js/room.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
-
-        <script src="/js/mode2.js"></script>
 
     </body>
 

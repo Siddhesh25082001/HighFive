@@ -28,7 +28,7 @@ html, body {
     height: 100%;
 }
 
-.left {
+.tiles-layout {
     height: 100%;
     padding : 0 10px;
     background-color: #f4f3f1;
