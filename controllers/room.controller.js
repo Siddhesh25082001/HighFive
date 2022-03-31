@@ -80,4 +80,15 @@ const room_mode_3 = (req,res) => {
 const room_mode_4 = (req,res) => {
 }
 
-module.exports = {room_mode_1,room_mode_2,room_mode_3,room_mode_4};
+const room_mode_2_demo = (req, res) => {
+    res.render('room-2-demo', {
+        roomId: "abcd",
+        userFName: "dum",
+        userLName: "dum",
+        userEmail: "dummy@gmail.com",
+        userPhone: "8793531178",
+        userName: "dummy",
+    });
+}
+
+module.exports = {room_mode_1,room_mode_2,room_mode_3,room_mode_4, room_mode_2_demo };
