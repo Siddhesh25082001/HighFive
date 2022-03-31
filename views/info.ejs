@@ -79,6 +79,16 @@
         </div>
     </section>
 
+
+    <!-- autofills the form  -->
+    <script>
+        document.querySelector('input[name="fname"]').value = "dummy"
+        document.querySelector('input[name="lname"]').value = "dummy"
+        document.querySelector('input[name="email"]').value = "dummy@gmail.com"
+        document.querySelector('input[name="phone"]').value = "12345"
+        document.querySelector('input[name="nname"]').value = "dumdum"
+    </script>
+
     <%- include('partials/cards') -%>
 
     <%- include('partials/footer') -%>

@@ -24,13 +24,13 @@ const handle_form_data = (req,res) => {
         let flag = false;
 
         // Checking whether there exits another user with similar credentials
-        for (let i=0; i < users.length; i++) {
-            if (users[i].fname === obj.fname && (users[i].nname === obj.nname || users[i].email === obj.email)) {
-                flag = true;
-                console.log("User Found with Same Name");
-                break;
-            }
-        }
+        // for (let i=0; i < users.length; i++) {
+        //     if (users[i].fname === obj.fname && (users[i].nname === obj.nname || users[i].email === obj.email)) {
+        //         flag = true;
+        //         console.log("User Found with Same Name");
+        //         break;
+        //     }
+        // }
 
         // If the user entered credentials are unique, pushing the user in the user's list
         if (!flag) {
