@@ -10,6 +10,7 @@ const message = document.getElementsByClassName('emojionearea-editor')
 // Menu variables
 const audioOpt = document.getElementById('audioOption');
 const videoOpt = document.getElementById('videoOption');
+const screenShare = document.querySelector('#screen-share i');
 
 // Connection variables
 const socket = io('/');
@@ -26,6 +27,7 @@ const peer = new Peer(undefined, {host:'peerjs-server.herokuapp.com', secure:tru
 // Initializing My Video stream, Whiteboard and creating a empty call list
 let myVideoStream;
 let callList = [];
+let isWhiteBoard = false;
 
 // Video Grid Dimensions
 const gridOfVideos = [
@@ -188,14 +190,13 @@ function connectToNewUser(userId, stream, users, flag = false) {
         },
         function(err) {
             console.log('Failed to get local stream', err);
-        });
+     });
 
 
     callList = [];
 
     const conn = peer.connect(userId);
     conn.on('open', function() {
-
         conn.send(users);
     });
 }
@@ -246,7 +247,7 @@ function leave() {
 
     setTimeout(function() {
         window.location.href = '/thanks'; // Redirecting to Thanks Page
-    }, 3000);
+    }, 2000);
 }
 
 socket.on('user-disconnected', (userId, userName, users) => {
@@ -288,7 +289,7 @@ function createListElement(userName, fname, lname, email, phone) {
     ${userName}
     </a>
     `;
-    console.log(participants);
+    console.log("Participants List ",participants);
 
     participants.appendChild(list);
 }
@@ -322,11 +323,11 @@ function removeVideo(userId) {
             videoGrid1.removeChild(videoGrid1.childNodes[index]);
             i--;
         } 
-        // else {
-        //     if (!isWhiteBoard) {
-        //         videoGrid1.childNodes[i].style.display = 'block';
-        //     }
-        // }
+        else {
+            if (!isWhiteBoard) {
+                videoGrid1.childNodes[i].style.display = 'block';
+            }
+        }
     }
 
     gridCheck();
@@ -402,6 +403,65 @@ function addVideoStream(grid, stream, color, userId) {
 }
 
 /*
+===============================================================================================================================================================================
+                                                                F U L L     S C R E E N     -   E N T E R   /   E X I T
+================================================================================================================================================================================
+*/
+
+// Function to Enter Full Screen - Maximizing a particular video
+function resize(e) {
+    console.log(e)
+
+    // Making other Videos Hidden
+    for (let i = 0; i < videoGrid1.childNodes.length; i++) {
+        let tempId = videoGrid1.childNodes[i].getAttribute('id');
+        if (tempId !== `c${e}`) {
+            videoGrid1.childNodes[i].style.display = 'none';
+        }
+    }
+
+    // fs is the resize icon
+    const fs = document.getElementById(e);
+    fs.style.display = 'none';
+    const box = document.getElementById(`c${e}`);
+
+    box.classList.add('resize'); // will make the height and width 100%
+
+    // creating the compress icon
+    const div = document.createElement('div');
+    div.innerHTML = '<i class="fas fa-compress"></i>';
+    div.classList.add('compress');
+
+    div.setAttribute('onclick', `back('${e}')`);
+
+    box.childNodes[0].appendChild(div);
+}
+
+// Function to Exit Full Screen - Bringing back the normal videos
+function back(e) {
+    console.log(e);
+
+    // Making all video back to flex
+    for (let i = 0; i < videoGrid1.childNodes.length; i++) {
+        let tempId = videoGrid1.childNodes[i].getAttribute('id');
+        if (tempId !== `c${e}`) {
+            videoGrid1.childNodes[i].style.display = 'flex';
+        }
+    }
+
+    const fs = document.getElementById(e);
+    fs.style.display = 'block';
+
+    const box = document.getElementById(`c${e}`);
+
+    box.classList.remove('resize'); 
+    console.log(box, box.childNodes);
+    box.childNodes[0].removeChild(box.childNodes[0].childNodes[2]); 
+
+    gridCheck();
+}
+
+/*
 ==========================================================================================================================================================================
                                                                             M E S S A G I N G
 ================================================================================================================================================================================
@@ -450,6 +510,19 @@ $('#messageInput').emojioneArea({
     }
 });
 
+// When User press enter key to sent message
+$('#messageInput').emojioneArea({
+    pickerPosition: 'top',
+
+    events: {
+        keydown: function(editor, event) {
+            if (event.keyCode === 13) {
+                sendMsg();
+            }
+        }
+    }
+});
+
 // Functiont to Send Message
 function sendMsg() {
     const msg = message[0].innerHTML;
@@ -459,12 +532,34 @@ function sendMsg() {
         chatBox(msg, '#25D366', 'end', 'Me');
 
         socket.emit('message', msg);
+        console.log("message sent ", msg);
+    }
+}
+
+// Send Voice Message
+function sendvoiceMsg(msg) {
+    //const msg = message[0].innerHTML;
+    message[0].innerHTML = '';
+
+    if (msg.length > 0) {
+        chatBox(msg, '#25D366', 'end', 'Me');
+
+        socket.emit('message', msg);
+        let speech = new SpeechSynthesisUtterance();
+        speech.text = "Message Sent in Chat";
+        window.speechSynthesis.speak(speech);
+        console.log("message sent ", msg);
     }
 }
 
 // Chat Connection
 socket.on('createMessage', (msg, userId, userName) => {
 
+    console.log("Message sent by ", userName, " ", msg);
+    let speech = new SpeechSynthesisUtterance();
+    speech.text = `Chat Message Received 
+                   ${userName} says ${msg}`;
+    window.speechSynthesis.speak(speech);
     // Chat Notification
     if (!document.getElementById('chat').classList.contains('active')) {
         document.getElementById('chat-noti').innerHTML = '•';
@@ -505,6 +600,68 @@ const muteUnmute = () => {
     }
 }
 
+const voiceMute = () => {
+    //console.log("voice Mute");
+    let speech = new SpeechSynthesisUtterance();
+    const enabled = myVideoStream.getAudioTracks()[0].enabled;
+    if(enabled) {
+        speech.text = "Voice Muted";
+        window.speechSynthesis.speak(speech);
+        myVideoStream.getAudioTracks()[0].enabled = false;
+        setUnmuteButton();
+    }
+    else{
+        speech.text = "Already muted";
+        window.speechSynthesis.speak(speech);
+    }
+}
+
+ const voiceUnMute = () => {
+    //console.log("voice UnMute");
+    let speech = new SpeechSynthesisUtterance();
+    const enabled = myVideoStream.getAudioTracks()[0].enabled;
+    if(!enabled) {
+        speech.text = "Unmuted";
+        window.speechSynthesis.speak(speech);
+        myVideoStream.getAudioTracks()[0].enabled = true;
+        setMuteButton();
+    }
+    else{
+        speech.text = "Already unmuted";
+        window.speechSynthesis.speak(speech);
+    }
+}
+
+const voiceVideoOn = () => {
+    let enabled = myVideoStream.getVideoTracks()[0].enabled;
+    let speech = new SpeechSynthesisUtterance();
+    if(enabled){
+        speech.text = "Video already on";
+        window.speechSynthesis.speak(speech);
+    }
+    else{
+        speech.text = "Video on";
+        window.speechSynthesis.speak(speech);
+        myVideoStream.getVideoTracks()[0].enabled = true;
+        setStopVideo();
+    }
+}
+
+const voiceVideoOff = () => {
+    let enabled = myVideoStream.getVideoTracks()[0].enabled;
+    let speech = new SpeechSynthesisUtterance();
+    if(!enabled){
+        speech.text = "Video already off";
+        window.speechSynthesis.speak(speech);
+    }
+    else{
+        speech.text = "Video off";
+        window.speechSynthesis.speak(speech);
+        myVideoStream.getVideoTracks()[0].enabled = false;
+        setPlayVideo();
+    }
+}
+
 // Video Off or On
 const setPlayVideo = () => {
     const html = `<i class="fas fa-video-slash nav-link"></i>`
@@ -526,6 +683,64 @@ const playStop = () => {
         setStopVideo()
     }
 }
+
+/*
+================================================================================================================================================================================
+                                                                        S C R E E N     S H A R I N G
+=================================================================================================================================================================================
+*/
+
+let temp;
+
+// Function to Stop Screen Sharing
+function stopSharing() {
+    console.log('stop-sharing', myVideoStream);
+
+    videoGrid2.removeChild(videoGrid2.childNodes[1]);
+    screenShare.classList.remove('screen-share-active');
+
+    socket.emit('stop-screen-share', peer.id);
+}
+
+// Function to Start Screen Sharing
+function screenSharing() {
+
+    screenShare.classList.add('screen-share-active');
+
+    navigator.mediaDevices.getDisplayMedia({ video: true })
+        .then(function(stream) {
+
+            console.log("screen before", myVideoStream);
+
+            temp = myVideoStream;
+            myVideoStream = stream;
+
+            console.log("screen after", myVideoStream);
+
+            socket.emit('screen-share', peer.id);
+
+            addVideoStream(videoGrid2, stream, 'blue', peer.id);
+
+            stream.getVideoTracks()[0].addEventListener('ended', () => {
+                myVideoStream = temp;
+
+                stopSharing();
+            });
+        });
+
+}
+
+socket.on('screen-sharing', (userId, users) => {
+    console.log('sharing' + userId)
+
+    connectToNewUser(userId, myVideoStream, users);
+});
+
+socket.on('stop-screen-sharing', (userId, users) => {
+    console.log('stop-sharing' + userId)
+
+    connectToNewUser(userId, myVideoStream, users, true);
+});
 
 /*
 =============================================================================================================================================================================
@@ -560,3 +775,368 @@ function sound(sound) {
 setInterval(function() {
     notifications();
 }, 100);
+
+/*
+==============================================================================================================================================================================
+                                                                            W H I T E B O A R D
+===============================================================================================================================================================================
+*/
+
+let pencilColor = 'black';
+let pencilWidth = 5;
+
+// Function to Create a Whiteboard
+function whiteBoard() {
+
+    isWhiteBoard = true;
+
+    const div = document.createElement('div');
+    div.style.padding = '5px';
+    div.setAttribute('id', 'canvas');
+
+    const div1 = document.createElement('div');
+    div1.classList.add('box-position');
+
+
+    div1.innerHTML = `<div class="white-board-icons" style="" id="" onclick="cross()">
+    <i class="fas fa-times"></i>
+        </div>
+        <div class="white-board-icons" style="top:50px;" id="" onclick="pencil()">
+        <i class="fas fa-pencil-alt"></i>
+        </div>
+        <div class="white-board-icons" style="top:100px;" id="" onclick="eraser()">
+        <i class="fas fa-eraser"></i>
+        </div>
+        <div class="white-board-icons colour" style="top:150px; background-color:red;" id="" onclick="red()">
+        </div>
+        <div class="white-board-icons colour" style="top:200px; background-color:green;" id="" onclick="green()">
+        </div>
+        <div class="white-board-icons colour" style="top:250px; background-color:blue;" id="" onclick="blue()">
+        </div>
+        <div class="white-board-icons colour" style="top:300px; background-color:yellow;" id="" onclick="yellow()">
+        </div>`;
+
+    const canvas = document.createElement('canvas');
+
+    div1.appendChild(canvas);
+    div.appendChild(div1);
+
+    for (let i = 0; i < videoGrid1.childNodes.length; i++) {
+        videoGrid1.childNodes[i].style.display = 'none';
+    }
+
+    div.classList.add('resize');
+
+    videoGrid1.appendChild(div);
+
+
+    const ctx = canvas.getContext('2d');
+
+    let painting = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+
+
+    console.log(ctx)
+
+    function startPosition(e) {
+        painting = true;
+        lastX = e.offsetX;
+        lastY = e.offsetY;
+    }
+
+    function finishPosition(e) {
+        painting = false;
+    }
+
+    // Function for Drawing the design and sending the coordinates, pencil-color and pencil-width immediately to other users.
+    function draw(e) {
+
+        if (!painting) return;
+
+        ctx.strokeStyle = pencilColor;
+        ctx.lineWidth = pencilWidth;
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+
+        socket.emit('draw', lastX, lastY, e.offsetX, e.offsetY, pencilColor, pencilWidth);
+
+        lastX = e.offsetX;
+        lastY = e.offsetY;
+    }
+
+    canvas.addEventListener('mousedown', startPosition);
+    canvas.addEventListener('mouseup', finishPosition);
+    canvas.addEventListener('mouseout', finishPosition);
+    canvas.addEventListener('mousemove', draw);
+}
+
+// Whiteboard Connection
+socket.on('drawing', (lastX, lastY, offsetX, offsetY, pencilColor, pencilWidth) => {
+
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+
+    ctx.strokeStyle = pencilColor;
+    ctx.lineWidth = pencilWidth;
+
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+
+    ctx.lineTo(offsetX, offsetY);
+    ctx.stroke();
+});
+
+// Functon to Remove the Whiteboard and Make Videos visible
+function cross() {
+    isWhiteBoard = false;
+
+    console.log(videoGrid1.childNodes)
+
+    for (let i = 0; i < videoGrid1.childNodes.length; i++) {
+        const tempId = videoGrid1.childNodes[i].getAttribute('id');
+        console.log(videoGrid1.childNodes[i])
+        if (tempId !== 'canvas') {
+            videoGrid1.childNodes[i].style.display = 'block';
+        } else {
+            videoGrid1.removeChild(videoGrid1.childNodes[i]);
+            i--;
+        }
+    }
+
+    gridCheck();
+}
+
+// Function to use Pencil
+function pencil() {
+    pencilColor = 'black';
+    pencilWidth = 5;
+}
+
+// Function to use Pencil with Red Colour
+function red() {
+    pencilColor = 'red';
+    pencilWidth = 5;
+}
+
+// Function to use Pencil with Green Colour
+function green() {
+    pencilColor = 'green';
+    pencilWidth = 5;
+}
+
+// Function to use Pencil with Blue Color
+function blue() {
+    pencilColor = 'blue';
+    pencilWidth = 5;
+}
+
+// Function to use Pencil with Yellow Colour
+function yellow() {
+    pencilColor = 'yellow';
+    pencilWidth = 5;
+}
+
+// Function to use Eraser
+function eraser() {
+    pencilColor = 'white';
+    pencilWidth = 10;
+}
+
+// Friend List 
+const friendList= [
+    {
+        "name":"rahul",
+        "email":"prajapatirahul1712001@gmail.com"
+    },
+    {
+        "name":"harsh",
+        "email":"harshmishraandheri@gmail.com"
+    },
+    {
+        "name":"siddhesh",
+        "email":"siddheshmane025@gmail.com"
+    },
+    {
+        "name":"aynaan",
+        "email":"aynaanq@gmail.com"
+    },
+    {
+        "name":"ninad",
+        "email":"npradeeppatil2001@gmail.com"
+    }
+];
+
+
+// Voice control commands for Mode 1
+if ("webkitSpeechRecognition" in window) {
+
+     // Creating speech recognition object
+     let recognition = new webkitSpeechRecognition();
+     let speech = new SpeechSynthesisUtterance();
+     console.log("inside Mode 1 js")
+     // window.speechSynthesis.speak(speech);
+     recognition.interimResults = true;
+
+     recognition.onstart = () => {
+         console.log("Activated");
+     }
+
+     recognition.onresult = (e) => {
+        let text = Array.from(e.results)
+            .map((result) => result[0])
+            .map((result) => result.transcript)
+            .join("");
+        
+        if (e.results[0].isFinal) {
+            text = text.toLowerCase();
+            console.log(text);
+            if (text.includes("jarvis") || text.includes("jervis") || text.includes("service") ||
+            text.includes("javascript")) {
+
+                 if (text.includes("of") && text.includes("audio") || text.includes("off")
+                 && text.includes("audio")) {
+                    console.log("Inside on my audio");
+                    voiceMute();
+                }
+
+                if (text.includes("on") && text.includes("audio")) {
+                    console.log("Inside off my audio");
+                    voiceUnMute();
+                }
+
+                if(text.includes("on") && text.includes("video")){
+                    console.log("Inside video on");
+                    voiceVideoOn();
+                }
+
+                if(text.includes("off") && text.includes("video") || text.includes("of") && 
+                text.includes("video")){
+                    console.log("Inside video off");
+                    voiceVideoOff();
+                }
+
+                if (text.includes("share") || text.includes("link") || text.includes("sharing")) {
+                    let mails = [];
+                    let names = [];
+                    if(text.includes("rahul")) {
+                        console.log("Inside rahul");
+                        mails.push(friendList[0].email);
+                        names.push(friendList[0].name);
+                    }
+
+                    if(text.includes("harsh")) {
+                        mails.push(friendList[1].email);
+                        names.push(friendList[1].name);
+                    }
+
+                    if(text.includes("siddhesh")) {
+                        mails.push(friendList[2].email);
+                        names.push(friendList[2].name);
+                    }
+
+                    if(text.includes("aynaan")) {
+                        mails.push(friendList[3].email);
+                        names.push(friendList[3].name);
+                    }
+
+                    if(text.includes("ninad")) {
+                        mails.push(friendList[4].email);
+                        names.push(friendList[4].name);
+                    }
+
+                    console.log("mails ",mails);
+                    console.log("names ",names);
+
+                    const roomId = document.getElementById('roomId');
+                    const link = `http://localhost:8000/room/mode-1/${roomId.value}`;
+                    Email.send({
+                        Host: "smtp.elasticemail.com",
+                        Port: 2525,
+                        Username: "shettyrohit268@gmail.com",
+                        Password: "961CCBA491B80A118101899A82CBD6217988",
+                        To: mails,
+                        From: "shettyrohit268@gmail.com",
+                        Subject: "Hello from rahul",
+                        Body: `Room Id : ${roomId.value},
+                            Link : ${link}`,
+                    }).
+                    then(
+                        message => {
+                            console.log(message);
+                            if(message === "OK"){
+                                speech.text = "Link Shared Successfully";
+                                window.speechSynthesis.speak(speech);
+                            }
+                            else{
+                                speech.text = "Some error occured";
+                                window.speechSynthesis.speak(speech);
+                            }
+                        }
+                    )
+                    .catch(err => { 
+                        console.log(err);
+                        speech.text = "Some error occured";
+                        window.speechSynthesis.speak(speech);
+                    });
+                }
+
+                if(text.includes("leave") || text.includes("live")){
+                    console.log("Inside leave meeting");
+                    const leave = document.getElementById('leaveMeeting');
+                    leave.click();
+                    speech.text = "Meeting Left";
+                    window.speechSynthesis.speak(speech);
+                }
+
+                if(text.includes("write") || text.includes("writing") || text.includes("chat") || text.includes("chart")){
+                    console.log("Inside write chat");
+                    var msg;
+                    if(text.indexOf("chat") !== -1){
+                         msg = text.slice(text.indexOf("chat") + 4);
+                         msg = msg.split(" ").join(" ");
+                    }
+                    else if(text.indexOf("chart") !== -1){
+                         msg = text.slice(text.indexOf("chart") + 5);
+                         msg = msg.split(" ").join(" ");
+                    }
+                    else if(text.indexOf("write") !== -1){
+                         msg = text.slice(text.indexOf("write") + 5);
+                         msg = msg.split(" ").join(" ");
+                    }
+                    else {
+                         msg = text.slice(text.indexOf("writing") + 7)
+                         msg = msg.split(" ").join(" ");
+                    }
+                    sendvoiceMsg(msg);
+                }
+
+            }
+            // else{
+            //    // console.log("jarvis bolo pehle")
+            // }
+        }
+    }
+
+    recognition.onend = () => {
+        recognition.start();
+    }
+
+    recognition.start()
+
+} else {
+    alert('Browser does not supports speech recognition');
+}

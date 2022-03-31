@@ -6,16 +6,16 @@ if ("webkitSpeechRecognition" in window) {
     alert('Browser does not supports speech recognition');
 }
 
-window.onload = function () {
-    if (isBrowserSupported) {
-        if (localStorage.getItem("voiceConnected") === null) {
-            localStorage.setItem("voiceConnected", true);
-            let speech = new SpeechSynthesisUtterance();
-            speech.text = "Voice Connected";
-            window.speechSynthesis.speak(speech);
-        }
-    }
-}
+// window.onload = function () {
+//     if (isBrowserSupported) {
+//         if (localStorage.getItem("voiceConnected") === null) {
+//             localStorage.setItem("voiceConnected", true);
+//             let speech = new SpeechSynthesisUtterance();
+//             speech.text = "Voice Connected";
+//             window.speechSynthesis.speak(speech);
+//         }
+//     }
+// }
 
 if (isBrowserSupported) {
 
@@ -27,6 +27,12 @@ if (isBrowserSupported) {
     recognition.interimResults = true;
 
     recognition.onstart = () => {
+        if (localStorage.getItem("voiceConnected") === null) {
+            localStorage.setItem("voiceConnected", true);
+            let speech = new SpeechSynthesisUtterance();
+            speech.text = "Voice Connected";
+            window.speechSynthesis.speak(speech);
+        }
         // speech.text = "Voice Connected";
         // window.speechSynthesis.speak(speech);
         console.log('Voice is activated');
@@ -40,63 +46,27 @@ if (isBrowserSupported) {
         if (e.results[0].isFinal) {
             text = text.toLowerCase();
             console.log(text);
-            if (text.includes("jarvis") || text.includes("jervis")) {
+            if (text.includes("jarvis") || text.includes("jervis") || text.includes("service") ||
+            text.includes("javascript")) {
                 // Click On create
-                if (text.includes("click on create")) {
+                if (text.includes("click") && text.includes("create") || text.includes("concrete")) {
                     console.log("Inside click on create");
-                    window.location.href = "http://localhost:8000/createRoom";
                     speech.text = "Clicked on create button";
                     window.speechSynthesis.speak(speech);
+                    window.location.href = "/createRoom";
+                   // window.location.href =" https://test-deploy-mode-1.herokuapp.com/createRoom";
+                    
                 }
 
-                if (text.includes("create room")) {
+                if (text.includes("create") && text.includes("room") || text.includes("creator") && text.includes("room")) {
                     console.log("Inside create room");
                     const copyText = document.getElementById("roomId");
                     //console.log(copyText.value)
+                    speech.text = "Room created successfully";
+                    window.speechSynthesis.speak(speech);
                     window.location.href = `/info/${copyText.value}`;
-                    speech.text = "Room Created successfully";
-                    window.speechSynthesis.speak(speech);
+                
                 }
-
-                if (text.includes("on my video")) {
-                    console.log("Inside on my video");
-                    const video = document.getElementById('videoOption');
-                    video.click();
-                    speech.text = "Video turned On";
-                    window.speechSynthesis.speak(speech);
-                }
-
-                if (text.includes("off my video") || text.includes("of my video")) {
-                    console.log("Inside off my video");
-                    const video = document.getElementById('videoOption');
-                    video.click();
-                    speech.text = "Video turned Off";
-                    window.speechSynthesis.speak(speech);
-                }
-
-                if (text.includes("mute me") || text.includes("mute") || text.includes("mutiny")) {
-                    console.log("Inside on my audio");
-                    const audio = document.getElementById('audioOption');
-                    audio.click();
-                    speech.text = "Audio Muted";
-                    window.speechSynthesis.speak(speech);
-                }
-
-                if (text.includes("unmute me") && text.indexOf("mute") === -1) {
-                    console.log("Inside off my audio");
-                    const audio = document.getElementById('audioOption');
-                    audio.click();
-                    speech.text = "Audio Unmuted";
-                    window.speechSynthesis.speak(speech);
-                }
-
-                if(text.includes("leave") || text.includes("leave the meeting") || text.includes("live meeting")){
-                    console.log("Inside leave meeting");
-                    const leave = document.getElementById('leaveMeeting');
-                    leave.click();
-                    speech.text = "Meeting Left";
-                    window.speechSynthesis.speak(speech);
-                 }
 
                  if(text.includes("submit")){
                      console.log("Inside submit form");
@@ -106,45 +76,28 @@ if (isBrowserSupported) {
                      window.speechSynthesis.speak(speech);
                  }
 
-                if (text.includes("share link") || text.includes("share the link")) {
-                    console.log("Inside share link");
-                    const roomId = document.getElementById('roomId');
-                    const link = `http://localhost:8000/room/mode-1/${roomId.value}`;
-                    Email.send({
-                        Host: "smtp.elasticemail.com",
-                        Port: 2525,
-                        Username: "shettyrohit268@gmail.com",
-                        Password: "961CCBA491B80A118101899A82CBD6217988",
-                        To: `prajapatirahul1712001@gmail.com`,
-                        From: "shettyrohit268@gmail.com",
-                        Subject: "Hello from rahul",
-                        Body: `Room Id : ${roomId.value},
-                            Link : ${link}`,
-                    }).
-                    then(
-                        message => {
-                            console.log(message);
-                            speech.text = "Link Shared";
-                            window.speechSynthesis.speak(speech);
-                        }
-                    )
-                    .catch(err => { 
-                        console.log(err);
-                        speech.text = "Some error occured";
-                        window.speechSynthesis.speak(speech);
-                    });
-                }
+                 if(text.includes("select") && text.includes("mod") || text.includes("mode")){
+                    console.log("Inside choose mode");
+                    const mode = document.getElementById('mode-dropdown');
+                    mode.value = '1';
+                    speech.text = "Mode 1 selected";
+                    window.speechSynthesis.speak(speech);
+                 }
 
-                if(text.includes("home") || text.includes("return home") || text.includes("home page")){
+                if(text.includes("home") || text.includes("return")){
                     console.log("Inside home page");
-                    window.location.href = "http://localhost:8000";
+                    
                     speech.text = "Returned to home page";
                     window.speechSynthesis.speak(speech);
+                   //window.location.href = "https://test-deploy-mode-1.herokuapp.com";
+                   window.location.href = "/";
+                   
                 }
+
             }
-            else {
-                console.log("jarvis bolo pehle")
-            }
+            // else {
+            //     console.log("jarvis bolo pehle")
+            // }
         }
     }
 
