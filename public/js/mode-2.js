@@ -110,8 +110,12 @@ function clearActiveCategoryTiles(){
 function renderWordTile(word, category){
     let tile = wordTileTemplate.content.cloneNode(true);
 
-    tile.querySelector('img').src = IMG_LINK_PREFIX + word.icon;
-    tile.querySelector('span').textContent = word.text;
+    tile.querySelector('img').src = word.icon;
+
+    tile.querySelector('span').textContent = word.text
+    if( category == "alphabet" || category == "number" || category == "emoji"){
+        tile.querySelector('span').style.display = "none";
+    }
     
     tile.querySelector('div.word-tile').classList.add(category);
 
