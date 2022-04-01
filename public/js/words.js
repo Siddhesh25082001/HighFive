@@ -58,7 +58,7 @@ let words = {
 
         {
             text : "you",
-            icon : "youtube-squared.png"
+            icon : "https://img.icons8.com/emoji/48/000000/person-running.png"
         },
         
         {
@@ -68,7 +68,7 @@ let words = {
         
         {
             text : "mine",
-            icon : "mine-pronoun.png"
+            icon : "https://img.icons8.com/emoji/48/000000/person-running.png"
         },
         
         {
@@ -91,7 +91,7 @@ let words = {
         
         {
             text : "now",
-            icon : "time.png"
+            icon : "https://img.icons8.com/flat-round/48/000000/play--v1.png"
         }
 
     ],
@@ -193,7 +193,7 @@ let words = {
     "question" : [
         {
             text : "why",
-            icon : "why-quest.png"
+            icon : "https://img.icons8.com/external-bearicons-flat-bearicons/64/000000/external-What-miscellany-texts-and-badges-bearicons-flat-bearicons.png"
         },
         {
             text : "what",
