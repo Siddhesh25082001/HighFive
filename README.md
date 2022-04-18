@@ -13,9 +13,9 @@ This calls for the development of Web-based Video Chat Applications that can ass
 - A Video conferencing application that is Free and Accessible for all
 - Augmentative and Alternative Communication (AAC) in video conferencing by appending 4 Modes to the video chat app that can help differently abled individuals have access to and communicate with the people who are important to them
 
-| Situation Category: Daily Life | Disabilit Category: Multiple Disabilites |
-| ------------------------------ | ---------------------------------------- |
-| Disability Type: Open          | Software / Hardware: Software            | 
+| Situation Category: Daily Life | Disability Category: Multiple Disabilites |
+| ------------------------------ | ----------------------------------------- |
+| Disability Type: Open          | Software / Hardware: Software             | 
 
 Our Application mainly supports 4 Modes
 1. Mode-1 : Awaz
