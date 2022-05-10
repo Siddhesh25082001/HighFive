@@ -25,7 +25,7 @@ Our Application mainly supports 4 Modes
 
 ---
 
-**Mode-1 and Mode-2** have been deployed on the Heroku server and can be accessed by the following link: **[Accessible-Video-Chat-App](https://aatma-nirbhar.herokuapp.com, "Accessible Video Chat App")**
+**Mode-1 and Mode-2** have been deployed on the Heroku server and can be accessed by the following link: **[Accessible-Video-Chat-App](https://aatma-nirbhar.herokuapp.com "Accessible Video Chat App")**
 
 **Mode-3 and Mode 4** deployment coming soon ...
 
