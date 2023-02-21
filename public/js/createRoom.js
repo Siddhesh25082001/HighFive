@@ -1,5 +1,3 @@
-// This is 'createRoom.js' File of Connect - A JS File containing the information about the meeting room
-
 // Targeting Required variables by their respective "id's"
 const cid = document.getElementById('copyId');
 const curl = document.getElementById('copyUrl');

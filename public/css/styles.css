@@ -58,7 +58,8 @@ section{
 
 ::-webkit-scrollbar-thumb {
     background: crimson;
-    border-radius: 2px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 video{
@@ -434,7 +435,7 @@ header .part-2 ul li:hover{
 }
 
 .info .part-2 .form{
-    padding: 30px 20px;
+    padding: 10px;
     border-radius: 10px;
     border: 2px solid #111;
     box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.2);
@@ -543,13 +544,12 @@ header .part-2 ul li:hover{
 */
 
 footer{
-    margin-top: 60px;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: rgba(225, 225, 225, 0.8);
-    padding: 30px 40px;
+    padding: 25px 40px;
 }
 
 footer .main h4{
@@ -579,6 +579,12 @@ footer .main .links .fa-whatsapp{
 
 #mobile{
     display: none;
+}
+
+.close, .close:hover{
+    color: red;
+    border: none;
+    outline: none;
 }
 
 /*

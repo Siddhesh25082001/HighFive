@@ -2,9 +2,7 @@
 
 // Importing Required Modules
 const express = require('express');
-//const bodyParser = require('body-parser');
 const ejs = require('ejs');
-//const { v4: uuidv4 } = require('uuid');
 
 // Creating an express app
 const app = express();
@@ -34,93 +32,15 @@ app.get('/', function (req,res) {
 });
 
 // Create Room Page of Connect
-app.use('/createRoom',require('./routes/create-room.routing'));
+app.use('/createRoom', require('./routes/create-room.routing'));
 app.use('/joinRoom', require('./routes/join-room.routing'));
-app.use('/info',require('./routes/info.routing'));
-app.use('/room',require('./routes/room.routing'));
-
-// Join Room Page of Connect (GET)
-// app.get('/joinRoom', function(req, res) {
-//     res.render('joinRoom');
-// });
-
-// Join Room Page of Connect (POST)
-// app.post('/joinRoom', function(req, res) {
-//     const requestedroomId = req.body.roomId;
-//     res.redirect(`/info/${requestedroomId}`);
-// });
-
-// Info Page of Connect (GET)
-// app.get('/info/:roomId', function(req, res) {
-//     res.render('info', { roomId: req.params.roomId });
-// });
-
-// Info Page of Connect (POST)
-// app.post('/info/:roomId', function(req, res) {
-
-//     // Extracting the User Filled Form Data
-//     const obj = {
-//         fname: req.body.fname,
-//         lname: req.body.lname,
-//         email: req.body.email,
-//         phone: req.body.phone,
-//         nname: req.body.nname
-//     }
-
-//     let flag = false;
-
-//     // Checking whether there exits another user with similar credentials
-//     for (let i=0; i < users.length; i++) {
-//         if (users[i].fname === obj.fname && (users[i].nname === obj.nname || users[i].email === obj.email)) {
-//             flag = true;
-//             console.log("User Found with Same Name");
-//             break;
-//         }
-//     }
-
-//     // If the user entered credentials are unique, pushing the user in the user's list
-//     if (!flag) {
-//         users.push(obj);
-//         console.log("Users List: ", users);
-//         res.redirect(`/room/${req.params.roomId}`);
-//     }
-    
-//     // If the user entered credentials are not unique, redirecting it to the formError Page
-//     else {
-//         res.redirect(`/formError/${req.params.roomId}`);
-//     }
-// });
+app.use('/info', require('./routes/info.routing'));
+app.use('/room', require('./routes/room.routing'));
 
 // Form Error Page
-
 app.get('/formError/:roomId', function(req, res) {
     res.render('formError', { roomId: req.params.roomId })
 });
-
-// Room Page
-// app.get('/room/:roomId', function(req, res) {
-
-//     // Extracting the Room ID
-//     const roomId = req.params.roomId;
-
-//     try {
-//         if (counter >= 10) {
-//             res.render('capacityFull', { roomId: roomId });
-//         } 
-//         else {
-//             res.render('room', {
-//                 roomId: roomId,
-//                 userFName: users[users.length - 1].fname,
-//                 userLName: users[users.length - 1].lname,
-//                 userEmail: users[users.length - 1].email,
-//                 userPhone: users[users.length - 1].phone,
-//                 userName: users[users.length - 1].nname,
-//             });
-//         }
-//     } catch (e) {
-//         res.redirect(`/info/${req.params.roomId}`);
-//     }
-// });
 
 // Thank You Page
 app.get('/thanks', function(req, res){
@@ -136,7 +56,7 @@ io.on('connection', socket => {
         socket.join(roomId);
         counter++;
         
-        console.log("peer-connection ", counter, users);
+        console.log("peer-connection", counter, users);
 
         socket.to(roomId).emit('user-connected', userId, userName, users);
 
@@ -183,7 +103,6 @@ io.on('connection', socket => {
         })
     });
 });
-
 
 // Error Page
 app.get('*', function(req, res) {

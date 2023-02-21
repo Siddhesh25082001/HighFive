@@ -19,7 +19,7 @@ const screenShare = document.querySelector('#screen-share i');
 // Connection variables
 const socket = io('/');
 // const peer = new Peer();
-const peer = new Peer(undefined, {host:'peerjs-server.herokuapp.com', secure:true, port:443 });
+const peer = new Peer();
 
 /*
 =============================================================================================================================================================================

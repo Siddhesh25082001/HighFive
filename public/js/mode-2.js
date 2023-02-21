@@ -19,14 +19,14 @@ let sentence = [];
 /* -------------------------------------------------------------------------- */
 
 function getWordInfo(requiredWord){
-    for( let cat in words){
+    for(let cat in words){
         let res = words[cat].filter( word => word.text == requiredWord);
 
-        if( res.length != 0){
-            return {word : res[0], category : cat };
+        if(res.length != 0){
+            return { word : res[0], category : cat };
         }
     }
-    return {word : { text : "dummy", icon : "https://img.icons8.com/emoji/48/000000/waving-hand-emoji.png"}, category : "time"}
+    return { word : { text : "dummy", icon : "https://img.icons8.com/emoji/48/000000/waving-hand-emoji.png"}, category : "time"}
 }
 
 function textToSpeech(text){
@@ -39,6 +39,7 @@ function addTileToSentence(tileElement){
     if( sentence.length >= 7){
         return;
     }
+    
     let tile = tileElement.cloneNode(true);
     let wordText = tile.querySelector('span').textContent.toLowerCase();
 
@@ -56,24 +57,19 @@ function addTileToSentence(tileElement){
     transmitMessage(JSON.stringify([wordObj]));
 }
 
-
-
 function renderSenderSentence(msg){
     senderSentenceTiles.innerHTML = "";
     let senderSentence = "";
     let senderWords = JSON.parse(msg);
-
     //console.log("rendering : ", msg);
 
     for(let senderWord of senderWords){
-
         //console.log("testing for word :", senderWord);
 
         let { word, category } = getWordInfo(senderWord.word);
-
         let tile = renderWordTile(word, category);
-
         //console.log("tile element : ", tile);
+
         senderSentence += " " + senderWord.word;
         senderSentenceTiles.appendChild(tile);
     }
@@ -104,8 +100,6 @@ function clearActiveCategoryTiles(){
         tile.classList.remove('active');
     }
 }
-
-
 
 function renderWordTile(word, category){
     let tile = wordTileTemplate.content.cloneNode(true);
@@ -168,7 +162,6 @@ function handleCategoryTileClick(currTile){
 /* -------------------------------------------------------------------------- */
 /*                               EVENT LISTENERS                              */
 /* -------------------------------------------------------------------------- */
-
 
 categoryTiles.forEach( (tile) => {
     tile.addEventListener('click', (e) => {

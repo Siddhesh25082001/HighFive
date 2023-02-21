@@ -1,6 +1,5 @@
-// This is 'emojiPicker.js' File of Connect - A JS File containing all of the required information for emoji cdn
-
 class EmojiPicker {
+    
     constructor() {
       this.initiate();
     }

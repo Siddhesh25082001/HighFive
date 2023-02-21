@@ -44,6 +44,11 @@ html, body{
 #video-grid-2 {
     height: 17vh;
     width: 100%;
+    padding: 5px 10px;
+}
+
+.mode-2-grid-2 {
+    height: 31vh;
 }
 
 video {
@@ -52,6 +57,11 @@ video {
 
 #video-grid-1 video {
     width: 100%;
+}
+
+#video-grid-2 video {
+    border: 2px solid #7c84ec;
+    border-radius: 10px;
 }
 
 /* Menu Buttons */

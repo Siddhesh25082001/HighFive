@@ -22,16 +22,17 @@
 //     }
 // }
 
-const room_mode_1 = (req,res) => {
-    try{
-        console.log("Inside room_mode_1");
+const room_mode_1 = (req, res) => {
+    try {
+        console.log("Inside Room Mode 1");
         const roomId = req.params.roomId;
+
         if (counter >= 10) {
             res.render('capacityFull', { roomId: roomId });
         } 
         else {
-            console.log("room Id", roomId);
-            console.log("users ", users);
+            console.log("Room Id: ", roomId);
+            console.log("The Users in the room are: ", users);
             res.render('room-1', {
                 roomId: roomId,
                 userFName: users[users.length - 1].fname,
@@ -41,18 +42,18 @@ const room_mode_1 = (req,res) => {
                 userName: users[users.length - 1].nname,
             });
         }
-        //res.render('room', { roomId: roomId });
     }
     catch(err){
-        console.log(err);
+        console.log('Error', err);
         res.send(err);
     }
 }
 
-const room_mode_2 = (req,res) => {
-    try{
-        console.log("Inside room_mode_2");
+const room_mode_2 = (req, res) => {
+    try {
+        console.log("Inside Room Mode 2");
         const roomId = req.params.roomId;
+
         if (counter >= 10) {
             res.render('capacityFull', { roomId: roomId });
         } 
@@ -67,28 +68,28 @@ const room_mode_2 = (req,res) => {
             });
         }
     }
-    catch(err){
-        console.log(err);
+    catch(err) {
+        console.log('Error', err);
         res.send(err);
     }
 }
 
-const room_mode_3 = (req,res) => {
+const room_mode_3 = (req, res) => {
 
 }
 
-const room_mode_4 = (req,res) => {
+const room_mode_4 = (req, res) => {
 }
 
 const room_mode_2_demo = (req, res) => {
     res.render('room-2', {
-        roomId: "abcd",
-        userFName: "dum",
-        userLName: "dum",
-        userEmail: "dummy@gmail.com",
-        userPhone: "8793531178",
-        userName: "dummy",
+        roomId: "demo123",
+        userFName: "Siddhesh",
+        userLName: "Mane",
+        userEmail: "siddheshmane025@gmail.com",
+        userPhone: "7710914875",
+        userName: "siddhu",
     });
 }
 
-module.exports = {room_mode_1,room_mode_2,room_mode_3,room_mode_4, room_mode_2_demo };
+module.exports = {room_mode_1, room_mode_2, room_mode_3, room_mode_4, room_mode_2_demo };

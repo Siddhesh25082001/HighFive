@@ -1,11 +1,3 @@
-/* -------------------------------------------------------------------------- */
-/*                             CONSTANTS AND DATA                             */
-/* -------------------------------------------------------------------------- */
-
-const IMG_LINK_PREFIX = "https://img.icons8.com/emoji/48/000000/"
-const colors = "https://img.icons8.com/color/48/000000/"
-const fluency = "https://img.icons8.com/fluency/48/000000/"
-
 let words = {
 
     "yes" : [
