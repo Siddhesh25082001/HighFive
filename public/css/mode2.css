@@ -1,19 +1,35 @@
 :root {
-    --yes-light : #b1ffcd;
-    --no-light : #ffc4c4;
-    --greeting-light : #c2ebff;
-    --pronoun-light : #fec0db;
-    --time-light : #ffffff;
-    --action-light : #a1e7ab;
-    --action-dark : #01a019;
-    --adjective-light : #fb95ea;
-    --adjective-dark : #af0092;
-    --question-light : #7ab7ff;
-    --question-dark : #005bc4;
+
+    --quick-light: #a1e7ab;
+    --quick-dark: #32b746;
+
+    --adjective-light: #7ab7ff;
+    --adjective-dark: #005bc4;
+
+    --verb-light: rgb(113, 255, 231);
+    --verb-dark: rgb(0, 145, 120);
+
+    --pronoun-light: #fddb7e;
+    --pronoun-dark: #dfa300;
+
+    --conjunction-light: #fff;
+    --conjunction-dark: #111;
+
+    --preposition-light: #fb95ea;
+    --preposition-dark: #af0092;
+
+    --question-light: rgb(206, 143, 206);
+    --question-dark: rgb(221, 62, 221);
+
+    --adverb-light: rgb(190, 90, 90);
+    --adverb-dark: rgb(160, 25, 25);
+
     --emoji-light : #ffe8a7;
     --emoji-dark : #dfa300;
+
     --alphabet-light : rgb(255, 162, 118);
     --alphabet-dark : rgb(189, 60, 0);
+    
     --number-light : rgb(113, 255, 231);
     --number-dark : rgb(0, 145, 120);
 }
@@ -41,11 +57,13 @@ html, body {
 
 .sentence {
     background-color: rgb(231, 231, 231);
-    height: 15vh;
+    height: 18vh;
     display: flex;
     margin: 10px 0;
 
     border: 3px solid black;
+    border-radius: 12px;
+    overflow: scroll;
 }
 
 .sentence .sentence-tiles {
@@ -69,8 +87,7 @@ html, body {
 
 .sentence .buttons {
     width: 20%;
-    background-color: rgb(156, 156, 156);
-    padding: 5px 10px;
+    padding: 15px;
     display: flex;
     justify-content: space-between;
 }
@@ -81,11 +98,12 @@ html, body {
     font-size: 40px;
 
     background-color: white;
-    border: 3px solid rgb(0, 0, 0);
+    border-radius: 12px;
 
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .speak-btn{
@@ -139,6 +157,12 @@ html, body {
     transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 
     user-select: none;
+    cursor: pointer;
+}
+
+.word-tile img {
+    width: 40px;
+    height: 40px;
 }
 
 .word-tile::after {
@@ -192,6 +216,9 @@ html, body {
     padding-bottom: 0;
     border-top-right-radius: 12px;
     border-top-left-radius: 12px;
+    gap: 1rem;
+
+    overflow-x: scroll;
 }
 
 .category-tile{
@@ -199,8 +226,7 @@ html, body {
     min-width: 130px;
     background-color: rgb(235, 235, 235);
 
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
+    border-radius: 12px;
     padding: 12px;
     padding-bottom: 25px;
 
@@ -210,6 +236,12 @@ html, body {
     justify-content: space-between;
 
     user-select: none;
+    cursor: pointer;
+}
+
+.category-tile img {
+    width: 50px;
+    height: 50px;
 }
 
 .category-tile i {
@@ -224,36 +256,36 @@ html, body {
 
 /* --------------------------- category bg colors --------------------------- */
 
-.word-tile.yes {
-    background-color: var(--yes-light);
+.word-tile.quick {
+    background-color: var(--quick-light);
 }
 
-.word-tile.no {
-    background-color: var(--no-light);
+.word-tile.adjective {
+    background-color: var(--adjective-light);
 }
 
-.word-tile.greeting {
-    background-color: var(--greeting-light);
+.word-tile.verb {
+    background-color: var(--verb-light);
 }
 
 .word-tile.pronoun {
     background-color: var(--pronoun-light);
 }
 
-.word-tile.time {
-    background-color: var(--time-light);
+.word-tile.conjunction {
+    background-color: var(--conjunction-light);
+}
+
+.word-tile.preposition {
+    background-color: var(--preposition-light);
 }
 
 .word-tile.question {
     background-color: var(--question-light);
 }
 
-.word-tile.action {
-    background-color: var(--action-light);
-}
-
-.word-tile.adjective {
-    background-color: var(--adjective-light);
+.word-tile.adverb {
+    background-color: var(--adverb-light);
 }
 
 .word-tile.emoji {
@@ -270,65 +302,104 @@ html, body {
 
 /* -------------------------- category tile colors -------------------------- */
 
-.category-tile#question{
-    color: var(--question-dark);
-
+.category-tile#quick{
+    color: var(--quick-light);
 }
-
-.category-tile#action{
-    color: var(--action-dark);
-}
-
 
 .category-tile#adjective{
-    color: var(--adjective-dark);
+    color: var(--adjective-light);
 }
 
-.category-tile#emoji {
-    color: var(--emoji-dark);
+.category-tile#verb{
+    color: var(--verb-light);
 }
 
-.category-tile#alphabet {
-    color: var(--alphabet-dark);
+.category-tile#pronoun{
+    color: var(--pronoun-light);
 }
 
-.category-tile#number {
-    color: var(--number-dark);
-    
+.category-tile#conjunction{
+    color: var(--conjunction-light);
 }
 
+.category-tile#preposition{
+    color: var(--preposition-light);
+}
+
+.category-tile#question{
+    color: var(--question-light);
+
+}
+
+.category-tile#adverb{
+    color: var(--adverb-light);
+}
+
+.category-tile#emoji{
+    color: var(--emoji-light);
+}
+
+.category-tile#alphabet{
+    color: var(--alphabet-light);
+}
+
+.category-tile#number{
+    color: var(--number-light);
+}
 
 /* ------------------------- active category colors ------------------------- */
 
-
-.category-tile#question.active{
-    color: white;
-    background-color: var(--question-dark);
-
+.category-tile#quick.active{
+    color: #fff;
+    background-color: var(--quick-dark);
 }
 
-.category-tile#action.active{
-    color: white;
-    background-color: var(--action-dark);
-}
-
-
-.category-tile#adjective.active {
-    color: white;
+.category-tile#adjective.active{
+    color: #fff;
     background-color: var(--adjective-dark);
 }
 
-.category-tile#emoji.active {
-    color: white;
+.category-tile#verb.active{
+    color: #fff;
+    background-color: var(--verb-dark);
+}
+
+.category-tile#pronoun.active{
+    color: #fff;
+    background-color: var(--pronoun-dark);
+}
+
+.category-tile#conjunction.active{
+    color: #fff;
+    background-color: var(--conjunction-dark);
+}
+
+.category-tile#preposition.active{
+    color: #fff;
+    background-color: var(--preposition-dark);
+}
+
+.category-tile#question.active{
+    color: #fff;
+    background-color: var(--question-dark);
+}
+
+.category-tile#adverb.active{
+    color: #fff;
+    background-color: var(--adverb-dark);
+}
+
+.category-tile#emoji.active{
+    color: #fff;
     background-color: var(--emoji-dark);
 }
 
-.category-tile#alphabet.active {
-    color: white;
+.category-tile#alphabet.active{
+    color: #fff;
     background-color: var(--alphabet-dark);
 }
 
-.category-tile#number.active {
-    color: white;
+.category-tile#number.active{
+    color: #fff;
     background-color: var(--number-dark);
 }

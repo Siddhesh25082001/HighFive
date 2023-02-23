@@ -36,10 +36,6 @@ function textToSpeech(text){
 }
 
 function addTileToSentence(tileElement){
-    if( sentence.length >= 7){
-        return;
-    }
-    
     let tile = tileElement.cloneNode(true);
     let wordText = tile.querySelector('span').textContent.toLowerCase();
 
@@ -119,12 +115,7 @@ function renderWordTile(word, category){
 function renderWordTray(requiredCategory){
     grid.innerHTML = "";
     let requiredCategories;
-    if( requiredCategory == 'default' ){
-        requiredCategories = ["yes", "no", "greeting", "pronoun", "time"];
-    }
-    else{
-        requiredCategories = [requiredCategory];
-    }
+    requiredCategories = [requiredCategory];
 
     for(let cat of requiredCategories){
         for(let word of words[cat]){
@@ -147,7 +138,7 @@ function handleCategoryTileClick(currTile){
 
     if( currTile.classList.contains('active')){
         currTile.classList.remove('active');
-        renderWordTray('default');
+        renderWordTray('quick');
         return
     }
 
@@ -178,5 +169,6 @@ clearButton.addEventListener('click', () => { clearSentence() });
 /* -------------------------------------------------------------------------- */
 
 window.onload = () => {
-    renderWordTray('default');
+    renderWordTray('quick');
+    document.getElementById('quick').classList.add('active');
 }

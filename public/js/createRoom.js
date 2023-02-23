@@ -7,7 +7,7 @@ const url = document.getElementById('url');
 
 // Filling the roomId value and url value
 id.value = copyText.value;
-url.value = `https://highfive-app.herokuapp.com/info/${copyText.value}`;
+url.value = `https://aatma-nirbhar.onrender.com/info/${copyText.value}`;
 
 // Creating an Event Listener event
 cid.addEventListener('click', copyId);

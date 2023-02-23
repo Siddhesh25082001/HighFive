@@ -1,157 +1,441 @@
 let words = {
 
-    "yes" : [
+    "quick": [
         {
             text : "yes",
-            icon : "https://img.icons8.com/emoji/48/000000/check-mark-emoji.png"
+            icon : "/images/tiles/quick/yes.png"
         },
-    ],
 
-    "no" : [
         {
             text : "no",
-            icon : "https://img.icons8.com/emoji/48/000000/no-entry-emoji.png"
+            icon : "/images/tiles/quick/no.png"
         },
-    ],
 
-    "greeting" : [
         {
             text : "hello",
-            icon : "https://img.icons8.com/emoji/48/000000/victory-hand-emoji.png"
+            icon : "/images/tiles/quick/hello.png"
         },
     
         {
             text : "goodbye",
-            icon : "https://img.icons8.com/emoji/48/000000/waving-hand-emoji.png"
+            icon : "/images/tiles/quick/goodbye.png"
         },
     
         {
             text : "okay",
-            icon : "https://img.icons8.com/emoji/48/000000/thumbs-up.png"
+            icon : "/images/tiles/quick/okay.png"
         },
     
         {
             text : "please",
-            icon : "https://img.icons8.com/emoji/48/000000/pleading-face.png",
+            icon : "/images/tiles/quick/please.png",
         },
     
         {
             text : "thanks",
-            icon : "https://img.icons8.com/emoji/48/000000/folded-hands-emoji-1.png"
+            icon : "/images/tiles/quick/thanks.png"
         },
     
         {
             text : "sorry",
-            icon : "https://img.icons8.com/emoji/48/000000/white-flag.png"
+            icon : "/images/tiles/quick/sorry.png"
         },
-    ],
+    ], 
 
-    "pronoun" : [
+    "adjective" : [
+        {
+            text : "more",
+            icon : "/images/tiles/adjectives/bad.png"
+        },
 
         {
-            text : "you",
-            icon : "https://img.icons8.com/emoji/48/000000/person-running.png"
+            text : "big",
+            icon : "/images/tiles/adjectives/big.png"
         },
-        
-        {
-            text : "i am",
-            icon : "i-pronoun.png"
-        },
-        
-        {
-            text : "mine",
-            icon : "https://img.icons8.com/emoji/48/000000/person-running.png"
-        },
-        
-        {
-            text : "they",
-            icon : "they.png"
-        },
-        
-        {
-            text : "he",
-            icon : "he.png"
-        },
-        
-        {
-            text : "we",
-            icon : "we.png"
-        },
-    ],
 
-    "time" : [  
-        
         {
-            text : "now",
-            icon : "https://img.icons8.com/flat-round/48/000000/play--v1.png"
+            text : "blue",
+            icon : "/images/tiles/adjectives/blue.png"
+        },
+
+        {
+            text : "different",
+            icon : "/images/tiles/adjectives/different.png"
+        },
+
+        {
+            text : "fast",
+            icon : "/images/tiles/adjectives/fast.png"
+        },
+
+        {
+            text : "good",
+            icon : "/images/tiles/adjectives/good.png"
+        },
+
+        {
+            text : "happy",
+            icon : "/images/tiles/adjectives/happy.png"
+        },
+
+        {
+            text : "little",
+            icon : "/images/tiles/adjectives/little.png"
+        },
+
+        {
+            text : "more",
+            icon : "/images/tiles/adjectives/more.png"
+        },
+
+        {
+            text : "new",
+            icon : "/images/tiles/adjectives/new.png"
+        },
+
+        {
+            text : "old",
+            icon : "/images/tiles/adjectives/old.png"
+        },
+
+        {
+            text : "pretty",
+            icon : "/images/tiles/adjectives/pretty.png"
+        },
+
+        {
+            text : "red",
+            icon : "/images/tiles/adjectives/red.png"
+        },
+
+        {
+            text : "sad",
+            icon : "/images/tiles/adjectives/sad.png"
+        },
+
+        {
+            text : "same",
+            icon : "/images/tiles/adjectives/same.png"
+        },
+
+        {
+            text : "slow",
+            icon : "/images/tiles/adjectives/slow.png"
+        },
+
+        {
+            text : "yellow",
+            icon : "/images/tiles/adjectives/yellow.png"
         }
-
+        
     ],
 
-    "action" : [
+    "verb": [
+        {
+            text : "close",
+            icon : "/images/tiles/verbs/close.png"
+        },
         
         {
-            text : "work",
-            icon : "https://img.icons8.com/ios-filled/48/000000/running.png"
+            text : "color",
+            icon : "/images/tiles/verbs/color.png"
+        },
+        
+        {
+            text : "come",
+            icon : "/images/tiles/verbs/come.png"
+        },
+        
+        {
+            text : "done",
+            icon : "/images/tiles/verbs/done.png"
+        },
+        
+        {
+            text : "drink",
+            icon : "/images/tiles/verbs/drink.png"
+        },
+        
+        {
+            text : "eat",
+            icon : "/images/tiles/verbs/eat.png"
+        },
+        
+        {
+            text : "feel",
+            icon : "/images/tiles/verbs/feel.png"
+        },
+        
+        {
+            text : "find",
+            icon : "/images/tiles/verbs/find.png"
+        },
+        
+        {
+            text : "finish",
+            icon : "/images/tiles/verbs/finish.png"
+        },
+        
+        {
+            text : "get",
+            icon : "/images/tiles/verbs/get.png"
+        },
+        
+        {
+            text : "go",
+            icon : "/images/tiles/verbs/go.png"
+        },
+        
+        {
+            text : "help",
+            icon : "/images/tiles/verbs/help.png"
+        },
+        
+        {
+            text : "like",
+            icon : "/images/tiles/verbs/like.png"
+        },
+        
+        {
+            text : "look",
+            icon : "/images/tiles/verbs/look.png"
+        },
+        
+        {
+            text : "make",
+            icon : "/images/tiles/verbs/make.png"
+        },
+        
+        {
+            text : "need",
+            icon : "/images/tiles/verbs/need.png"
+        },
+        
+        {
+            text : "open",
+            icon : "/images/tiles/verbs/open.png"
         },
         
         {
             text : "play",
-            icon : "https://img.icons8.com/flat-round/48/000000/play--v1.png"
+            icon : "/images/tiles/verbs/play.png"
         },
         
         {
-            text : "have",
-            icon : "https://img.icons8.com/ios-filled/48/000000/h.png"
-        },
-        
-        {
-            text : "stop",
-            icon : "https://img.icons8.com/external-those-icons-lineal-color-those-icons/48/000000/external-stop-traffic-road-signs-those-icons-lineal-color-those-icons.png"
+            text : "put",
+            icon : "/images/tiles/verbs/put.png"
         },
         
         {
             text : "read",
-            icon : "https://img.icons8.com/external-victoruler-flat-victoruler/64/000000/external-read-education-and-school-victoruler-flat-victoruler.png"
+            icon : "/images/tiles/verbs/read.png"
         },
         
         {
-            text : "write",
-            icon : "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/000000/external-write-customer-feedback-flaticons-lineal-color-flat-icons.png"
+            text : "say",
+            icon : "/images/tiles/verbs/say.png"
         },
         
         {
-            text : "fast",
-            icon : "https://img.icons8.com/emoji/48/000000/person-running.png"
+            text : "see",
+            icon : "/images/tiles/verbs/see.png"
         },
         
         {
-            text : "slow",
-            icon : "https://img.icons8.com/external-kmg-design-flat-kmg-design/32/000000/external-backward-user-interface-kmg-design-flat-kmg-design.png"
+            text : "stop",
+            icon : "/images/tiles/verbs/stop.png"
+        },
+        
+        {
+            text : "tell",
+            icon : "/images/tiles/verbs/tell.png"
+        },
+
+        {
+            text : "turn",
+            icon : "/images/tiles/verbs/turn.png"
+        },
+
+        {
+            text : "want",
+            icon : "/images/tiles/verbs/want.png"
+        },
+
+        {
+            text : "work",
+            icon : "/images/tiles/verbs/work.png"
+        },
+        
+    ],
+
+    "pronoun": [
+        {
+            text : "he",
+            icon : "/images/tiles/pronouns/he.png"
+        },
+
+        {
+            text : "I",
+            icon : "/images/tiles/pronouns/I.png"
+        },
+
+        {
+            text : "It",
+            icon : "/images/tiles/pronouns/It.png"
+        },
+
+        {
+            text : "me",
+            icon : "/images/tiles/pronouns/me.png"
+        },
+
+        {
+            text : "mine",
+            icon : "/images/tiles/pronouns/mine.png"
+        },
+
+        {
+            text : "she",
+            icon : "/images/tiles/pronouns/she.png"
+        },
+
+        {
+            text : "we",
+            icon : "/images/tiles/pronouns/we.png"
+        },
+
+        {
+            text : "you",
+            icon : "/images/tiles/pronouns/you.png"
+        },
+    ],
+
+    "conjunction": [
+        {
+            text : "and",
+            icon : "/images/tiles/conjunctions/and.png"
+        },
+
+        {
+            text : "or",
+            icon : "/images/tiles/conjunctions/or.png"
+        },
+    ],
+
+    "preposition": [
+        {
+            text : "on",
+            icon : "/images/tiles/prepositions/on.png"
+        },
+
+        {
+            text : "off",
+            icon : "/images/tiles/prepositions/off.png"
+        },
+        
+        {
+            text : "in",
+            icon : "/images/tiles/prepositions/in.png"
+        },
+        
+        {
+            text : "out",
+            icon : "/images/tiles/prepositions/out.png"
+        },
+        
+        {
+            text : "up",
+            icon : "/images/tiles/prepositions/up.png"
+        },
+        
+        {
+            text : "down",
+            icon : "/images/tiles/prepositions/down.png"
+        },
+        
+        {
+            text : "to",
+            icon : "/images/tiles/prepositions/to.png"
+        },
+        
+        {
+            text : "for",
+            icon : "/images/tiles/prepositions/for.png"
+        },
+        
+        {
+            text : "under",
+            icon : "/images/tiles/prepositions/under.png"
+        },
+        
+        {
+            text : "with",
+            icon : "/images/tiles/prepositions/with.png"
+        },
+    ],
+
+    "question" : [
+        {
+            text : "what",
+            icon : "/images/tiles/questions/what.png"
+        },
+
+        {
+            text : "when",
+            icon : "/images/tiles/questions/when.png"
+        },
+        
+        {
+            text : "where",
+            icon : "/images/tiles/questions/where.png"
+        },
+        
+        {
+            text : "who",
+            icon : "/images/tiles/questions/who.png"
+        },
+        
+        {
+            text : "why",
+            icon : "/images/tiles/questions/why.png"
+        },
+        
+        {
+            text : "how",
+            icon : "/images/tiles/questions/how.png"
         },
 
     ],
 
-    "adjective" : [
+    "adverb": [
         {
-            text : "happy",
-            icon : "grinning-face-with-big-eyes--v2.png"
+            text : "not/don't",
+            icon : "/images/tiles/adverbs/not.png"
         },
+
         {
-            text : "sad",
-            icon : "sad--v1.png"
+            text : "now",
+            icon : "/images/tiles/adverbs/now.png"
         },
+
         {
-            text : "tired",
-            icon : "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/000000/external-tired-comfort-flaticons-lineal-color-flat-icons-2.png"
+            text : "here",
+            icon : "/images/tiles/adverbs/here.png"
         },
+
         {
-            text : "good",
-            icon : "https://img.icons8.com/external-xnimrodx-lineal-color-xnimrodx/64/000000/external-good-customer-review-xnimrodx-lineal-color-xnimrodx.png"
+            text : "there",
+            icon : "/images/tiles/adverbs/there.png"
         },
+
         {
-            text : "sleepy",
-            icon : "sleeping.png"
+            text : "away",
+            icon : "/images/tiles/adverbs/away.png"
+        },
+
+        {
+            text : "again",
+            icon : "/images/tiles/adverbs/again.png"
         },
     ],
 
@@ -179,17 +463,6 @@ let words = {
         {
             text : "please",
             icon : "https://img.icons8.com/emoji/48/000000/pleading-face.png"
-        },
-    ],
-
-    "question" : [
-        {
-            text : "why",
-            icon : "https://img.icons8.com/external-bearicons-flat-bearicons/64/000000/external-What-miscellany-texts-and-badges-bearicons-flat-bearicons.png"
-        },
-        {
-            text : "what",
-            icon : "https://img.icons8.com/external-bearicons-flat-bearicons/64/000000/external-What-miscellany-texts-and-badges-bearicons-flat-bearicons.png"
         },
     ],
 
@@ -296,7 +569,7 @@ let words = {
         },
         {
             text : "u",
-            icon : "https://img.icons8.com/ios-filled/48/000000/u.png",
+            icon : "https://img.icons8.com/material/256/u.png",
             code : "&#85;"
         },
         {
@@ -327,44 +600,145 @@ let words = {
     "number" : [
         {
             text : "0",
-            icon : "https://img.icons8.com/emoji/48/000000/keycap-digit-zero-emoji.png"
+            icon : "/images/tiles/numbers/0.png"
         },
         {
             text : "1",
-            icon : "https://img.icons8.com/emoji/48/000000/keycap-digit-one-emoji.png"
+            icon : "/images/tiles/numbers/1.png"
         },
         {
             text : "2",
-            icon : "https://img.icons8.com/emoji/48/000000/keycap-digit-two-emoji.png"
+            icon : "/images/tiles/numbers/2.png"
         },
         {
             text : "3",
-            icon : "https://img.icons8.com/emoji/48/000000/keycap-digit-three-emoji.png"
+            icon : "/images/tiles/numbers/3.png"
         },
         {
             text : "4",
-            icon : "https://img.icons8.com/emoji/48/000000/keycap-digit-four-emoji.png"
+            icon : "/images/tiles/numbers/4.png"
         },
         {
             text : "5",
-            icon : "https://img.icons8.com/emoji/48/000000/keycap-digit-five-emoji.png"
+            icon : "/images/tiles/numbers/5.png"
         },
         {
             text : "6",
-            icon : "https://img.icons8.com/emoji/48/000000/keycap-digit-six-emoji.png"
+            icon : "/images/tiles/numbers/6.png"
         },
         {
             text : "7",
-            icon : "https://img.icons8.com/emoji/48/000000/keycap-digit-seven-emoji.png"
+            icon : "/images/tiles/numbers/7.png"
         },
         {
             text : "8",
-            icon : "https://img.icons8.com/emoji/48/000000/keycap-digit-eight-emoji.png"
+            icon : "/images/tiles/numbers/8.png"
         },
         {
             text : "9",
-            icon : "https://img.icons8.com/emoji/48/000000/keycap-digit-nine-emoji.png"
+            icon : "/images/tiles/numbers/9.png"
         },
     ]
+
+    // "yes" : [
+    //     {
+    //         text : "yes",
+    //         icon : "https://img.icons8.com/emoji/48/000000/check-mark-emoji.png"
+    //     },
+    // ],
+
+    // "no" : [
+        
+    // ],
+
+    // "greeting" : [
+        
+    // ],
+
+    // "pronoun" : [
+
+    //     {
+    //         text : "you",
+    //         icon : "https://img.icons8.com/color/256/you-singular.png"
+    //     },
+        
+    //     {
+    //         text : "i am",
+    //         icon : "https://img.icons8.com/color/256/i-pronoun.png"
+    //     },
+        
+    //     {
+    //         text : "mine",
+    //         icon : "https://img.icons8.com/bubbles/256/about-me-male.png"
+    //     },
+        
+    //     {
+    //         text : "they",
+    //         icon : "https://img.icons8.com/color/256/they.png"
+    //     },
+        
+    //     {
+    //         text : "he",
+    //         icon : "https://img.icons8.com/color/256/he.png"
+    //     },
+        
+    //     {
+    //         text : "we",
+    //         icon : "https://img.icons8.com/color/256/we.png"
+    //     },
+    // ],
+
+    // "time" : [  
+        
+    //     {
+    //         text : "now",
+    //         icon : "https://img.icons8.com/flat-round/48/000000/play--v1.png"
+    //     }
+
+    // ],
+
+    // "action" : [
+        
+    //     {
+    //         text : "work",
+    //         icon : "https://img.icons8.com/ios-filled/48/000000/running.png"
+    //     },
+        
+    //     {
+    //         text : "play",
+    //         icon : "https://img.icons8.com/flat-round/48/000000/play--v1.png"
+    //     },
+        
+    //     {
+    //         text : "have",
+    //         icon : "https://img.icons8.com/ios-filled/48/000000/h.png"
+    //     },
+        
+    //     {
+    //         text : "stop",
+    //         icon : "https://img.icons8.com/external-those-icons-lineal-color-those-icons/48/000000/external-stop-traffic-road-signs-those-icons-lineal-color-those-icons.png"
+    //     },
+        
+    //     {
+    //         text : "read",
+    //         icon : "https://img.icons8.com/external-victoruler-flat-victoruler/64/000000/external-read-education-and-school-victoruler-flat-victoruler.png"
+    //     },
+        
+    //     {
+    //         text : "write",
+    //         icon : "https://img.icons8.com/external-flaticons-lineal-color-flat-icons/64/000000/external-write-customer-feedback-flaticons-lineal-color-flat-icons.png"
+    //     },
+        
+    //     {
+    //         text : "fast",
+    //         icon : "https://img.icons8.com/emoji/48/000000/person-running.png"
+    //     },
+        
+    //     {
+    //         text : "slow",
+    //         icon : "https://img.icons8.com/external-kmg-design-flat-kmg-design/32/000000/external-backward-user-interface-kmg-design-flat-kmg-design.png"
+    //     },
+
+    // ],
 
 }

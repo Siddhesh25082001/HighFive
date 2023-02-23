@@ -673,10 +673,12 @@ const setStopVideo = () => {
 };
 
 const playStop = () => {
+    
     let enabled = myVideoStream.getVideoTracks()[0].enabled;
+    
     if (enabled) {
         myVideoStream.getVideoTracks()[0].enabled = false;
-        setPlayVideo()
+         setPlayVideo()
     } else {
         myVideoStream.getVideoTracks()[0].enabled = true;
         setStopVideo()
