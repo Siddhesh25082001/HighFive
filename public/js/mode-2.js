@@ -169,6 +169,7 @@ clearButton.addEventListener('click', () => { clearSentence() });
 /* -------------------------------------------------------------------------- */
 
 window.onload = () => {
+    
     renderWordTray('quick');
     document.getElementById('quick').classList.add('active');
 }
