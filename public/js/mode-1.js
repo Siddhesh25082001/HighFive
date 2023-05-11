@@ -985,7 +985,7 @@ var alanBtnInstance = alanBtn({
     key: "c96f92eb11549547cc340cefa11376ed2e956eca572e1d8b807a3e2338fdd0dc/stage",
     onCommand: function (commandData) {
       if(commandData.command === "video-off"){
-         voiceVideoOff();
+        voiceVideoOff();
       }
 
       if(commandData.command === "video-on"){
@@ -1009,15 +1009,15 @@ var alanBtnInstance = alanBtn({
         console.log("Inside share link");
          let speech = new SpeechSynthesisUtterance();
          const roomId = document.getElementById('roomId');
-         const link = `http://localhost:8000/room/mode-1/${roomId.value}`;
+         const link = `http://aatma-nirbhar.onrender.com/room/mode-1/${roomId.value}`;
          Email.send({
              Host: "smtp.elasticemail.com",
              Port: 2525,
              Username: "shettyrohit268@gmail.com",
              Password: "961CCBA491B80A118101899A82CBD6217988",
-             To: "prajapatirahul1712001@gmail.com",
+             To: "siddheshmane025@gmail.com",
              From: "shettyrohit268@gmail.com",
-             Subject: "Hello from rahul",
+             Subject: "Meeting Invite Link from Siddhesh",
              Body: `Room Id : ${roomId.value},
                  Link : ${link}`,
          }).
